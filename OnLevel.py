@@ -6,14 +6,9 @@ import random
 from pprint import pprint
 import numpy as np
 
-def CreateSampleRateChanges(count):
-    sampleRateChanges = pd.DataFrame(pd.date_range(start = "2015-01-01", periods = count), columns = ['Date'])
-    for index in range(count):
-        sampleRateChanges['Date'].iloc[index] += datetime.timedelta(days=50 * (index+1))
+class OnLevel:
+    def Calculate(rateChanges, historicalPeriods, prospectivePeriod):
 
-    sampleRateChanges["Rate"] = np.random.randint(0, 1000, size=(count,1)) / 10000
-    sampleRateChanges["Factor"] = sampleRateChanges["Rate"] + 1
-    return sampleRateChanges
 
 def CreateSampleHistoricalPeriods():
     historicalPeriods = []
@@ -36,15 +31,13 @@ def AppendPolicyFactors(rateChanges, Policies):
     Policies.loc[Policies["Start"] <  rateChanges["Date"][0], "CumulativeFactor"] = rateChanges["CumulativeFactor"][0]
     Policies.loc[Policies["Start"] >= rateChanges["Date"].iloc[-1], "CumulativeFactor"] = rateChanges["CumulativeFactor"].iloc[-1]
 
+    
+    unsortedRateChanges = rateChanges
+    unsortedRateChanges["Factor"] = unsortedRateChanges["Rate"] + 1
 
-
-rateChangeCount = 10
-unsortedRateChanges = CreateSampleRateChanges(rateChangeCount)
-
-start = time.time()
-rateChanges = unsortedRateChanges.sort_values(by="Date")
-rateChanges["CumulativeFactor"] = rateChanges["Factor"].iloc[::-1].cumprod()
-#need group by and "sum"
+    rateChanges = unsortedRateChanges.sort_values(by="Date")
+    rateChanges["CumulativeFactor"] = rateChanges["Factor"].iloc[::-1].cumprod()
+    #need group by and "sum"
 
 
 historicalPeriods = CreateSampleHistoricalPeriods()
