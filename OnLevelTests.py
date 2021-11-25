@@ -10,20 +10,20 @@ class OnLevelTests(unittest.TestCase):
     def test_One_Rate_Change(self):
         onlevel = OnLevelClass.OnLevel()
         
-        rateChanges = pd.DataFrame (data= {'Date' : [datetime.date(2015,1,1)], 'Rate' : [0.25] })
+        rateChanges = pd.DataFrame (data= {'Date' : [datetime.date(2016,1,1)], 'Rate' : [0.25] })
         result = onlevel.Calculate(rateChanges, self.historicalPeriods, self.prospectivePeriod)
         self.assertEqual(result, 123)
 
     
-    def Test_Two_Rate_Changes(self):
+    def test_Two_Rate_Changes(self):
         onlevel = OnLevelClass.OnLevel()
         
-        rateChanges = pd.DataFrame (data= {'Date' : [datetime.date(2015,1,1), datetime.datetime.date(2015,7,1)],'Rate' : [0.25, 0.1] })
+        rateChanges = pd.DataFrame (data= {'Date' : [datetime.date(2015,1,1), datetime.date(2015,7,1)],'Rate' : [0.25, 0.1] })
         result = onlevel.Calculate(rateChanges, self.historicalPeriods, self.prospectivePeriod)
         self.assertEqual(result, 123)
 
 
-    def Test_Two_Rate_Changes_With_Duplicate(self):
+    def test_Two_Rate_Changes_With_Duplicate(self):
         onlevel = OnLevelClass.OnLevel()
         
         rateChanges = pd.DataFrame (data= {'Date' : [datetime.date(2015,1,1), datetime.date(2015,7,1), datetime.date(2015,7,1)], 'Rate' : [0.25, 0.1, 0.15] })            
