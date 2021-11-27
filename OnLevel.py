@@ -1,54 +1,52 @@
+import numpy as np
 import pandas as pd
 import datetime
 
 class OnLevel:
 
-    def Calculate(self, rateChanges, historicalPeriods, prospectivePeriod):
-        unsortedRateChanges = rateChanges
-        unsortedRateChanges['Factor'] = unsortedRateChanges.Rate + 1
-        rateChanges = unsortedRateChanges.groupby('Date').agg({'Factor': 'prod'}).sort_values(by='Date').reset_index()
-        rateChanges['CumulativeFactor'] = rateChanges.Factor.iloc[::-1].cumprod()
+    def Calculate(self, inputRateChanges, historicalPeriods, prospectivePeriod):
+        preAggregatedRateChanges = inputRateChanges
+        preAggregatedRateChanges['incr_factor'] = preAggregatedRateChanges.rate + 1
+        rateChanges = preAggregatedRateChanges.groupby('date').agg({'incr_factor': 'prod'}).reset_index()
         
         earliestPolicyStartDate = historicalPeriods[0][0]
         latestPolicyEndDate = prospectivePeriod[1]
         
-        policies = pd.DataFrame(pd.date_range(start = earliestPolicyStartDate, end = latestPolicyEndDate), columns = ['Start'])
-        policies['End'] = policies.Start + pd.DateOffset(years=1) + datetime.timedelta(days=-1)
+        policies = pd.DataFrame(pd.date_range(start = earliestPolicyStartDate, end = latestPolicyEndDate), columns = ['start_date'])
+        policies['end_date'] = policies.start_date + pd.DateOffset(years=1) + datetime.timedelta(days=-1)
 
-        policies.Start = policies.Start.apply(lambda x: x.date())
-        policies.End = policies.End.apply(lambda x: x.date())
+        policies.start_date = policies.start_date.apply(lambda x: x.date())
+        policies.end_date = policies.end_date.apply(lambda x: x.date())
         
-        policies['DayCount'] = (policies.End - policies.Start).map(lambda x: x.days) + 1
-        self.__AppendPolicyCumulativeFactors(rateChanges, policies)
+        policies['days'] = (policies.end_date - policies.start_date).map(lambda x: x.days) + 1
+        self.__CreatePolicyCumulativeFactors(rateChanges, policies)
 
+        historicalFactors = []
         for period in historicalPeriods:
-            days = 0
-            weightedDays = 0
-            treatyStart, treatyEnd = period
-                        
-            subset = policies.loc[(policies.Start >= treatyStart) & (policies.Start <= treatyEnd)]
+            days = weightedDays = 0
+            treatyStart, treatyEnd = period                        
+            subset = policies.loc[(policies.start_date >= treatyStart) & (policies.start_date <= treatyEnd)]
 
-            # uniques = subset.CumulativeFactor.unique()
-            # if uniques.count == 0:
-                # print('none')
-                # else if uniques.count
-            days += subset.DayCount.sum()
-            weightedDays += (subset.DayCount * subset.CumulativeFactor).sum()
-            print(weightedDays/days)
+            factor = 1
+            if any(subset):
+                days += subset.days.sum()
+                weightedDays += (subset.days * subset.cumul_factor).sum()
+                factor = weightedDays/days if days else 1
+            historicalFactors.append(factor)
 
-        print()
-        return 123;    
+        treatyStart, treatyEnd = prospectivePeriod
+        subset = policies.loc[(policies.start_date >= treatyStart) & (policies.start_date <= treatyEnd)]
+        days = subset.days.sum()
+        weightedDays = (subset.days * subset.cumul_factor).sum()
+        prospectiveFactor = weightedDays/days if days else 1
+ 
+        onlevelFactors = np.multiply(np.reciprocal(historicalFactors), prospectiveFactor)
+        return onlevelFactors.tolist();    
 
 
-    def __AppendPolicyCumulativeFactors(self, rateChanges, policies):
-        policies.CumulativeFactor = 1
-        if len(rateChanges) > 1:
-            for index in range(len(rateChanges)-1):
-                lower = rateChanges.Date.iloc[index]
-                upper = rateChanges.Date.iloc[index + 1]    
-                f = rateChanges.CumulativeFactor.iloc[index]
-                policies.loc[(policies.Start >= lower) & (policies.Start < upper), 'CumulativeFactor'] = f
+    def __CreatePolicyCumulativeFactors(self, rateChanges, policies):
+        policies['cumul_factor'] = 1
 
-        if len(rateChanges) > 0:
-            policies.loc[policies.Start <  rateChanges.Date[0], 'CumulativeFactor'] = rateChanges.CumulativeFactor[0]
-            policies.loc[policies.Start >= rateChanges.Date.iloc[-1], 'CumulativeFactor'] = rateChanges.CumulativeFactor.iloc[-1]
+        for d, f in zip(rateChanges.date, rateChanges.incr_factor):
+            tf = policies.start_date >= d
+            policies.loc[tf,'cumul_factor'] *= f
