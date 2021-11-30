@@ -28,11 +28,12 @@ class PolicyTreatySlicer(BaseTreatySlicer):
 
 class CalendarTreatySlicer(BaseTreatySlicer):
     def get_first_policy_date(start, lengthInYears):
-        return start + datetime.timedelta(years=-1)
+        return start.replace(year = start.year - lengthInYears) + datetime.timedelta(days=1)
 
     def get_policy_filter(policies, start, end, lengthInYears):
-        newStart = start + datetime.timedelta(years=-1, days=1)
+        newStart = start.replace(year = start.year - lengthInYears) + datetime.timedelta(days=1)
         return (policies.start_date >= newStart) & (policies.start_date <= end)
 
     def get_days(policies, start, end):
-        return min(policies.end, end) - max(policies.start, start) + 1
+        days = policies.end_date.apply(lambda x: min(x, end)) - policies.start_date.apply(lambda x : max(x, start))
+        return days.map(lambda x: x.days) + 1
