@@ -36,7 +36,7 @@ class OnLevel:
             historicalFactors.append(factor)
 
         treatyStart, treatyEnd = input.prospectivePeriod
-        policyFilter = input.historicalTreatySlicer.get_policy_filter(policies, treatyStart, treatyEnd, 1)                       
+        policyFilter = input.prospectiveTreatySlicer.get_policy_filter(policies, treatyStart, treatyEnd, 1)                       
         subset = policies.loc[policyFilter]
         days = input.prospectiveTreatySlicer.get_days(subset, treatyStart, treatyEnd)                       
         totalDays = days.sum()
