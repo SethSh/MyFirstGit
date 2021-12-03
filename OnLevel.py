@@ -1,14 +1,10 @@
 import numpy as np
 import pandas as pd
-import datetime
 
 
 class OnLevel:
 
     def Calculate(self, input):
-        rateChanges = input.rateChanges.copy(deep=True)
-        rateChanges['incr_factor'] = rateChanges.rate + 1
-        
         earliestPolicyStart = input.historicalTreatySlicer.get_first_policy_date(min(input.historicalPeriods[0]), 1)
         latestPolicyEndDate = input.prospectivePeriod[1]
         
@@ -18,7 +14,7 @@ class OnLevel:
         policies.start_date = policies.start_date.apply(lambda x: x.date())
         policies.end_date = policies.end_date.apply(lambda x: x.date())
         
-        self.__CreatePolicyCumulativeFactors(rateChanges, policies)
+        self.__CreatePolicyCumulativeFactors(input.rateChanges, policies)
 
         historicalFactors = []
         for period in input.historicalPeriods:
@@ -36,7 +32,7 @@ class OnLevel:
             historicalFactors.append(factor)
 
         treatyStart, treatyEnd = input.prospectivePeriod
-        policyFilter = input.historicalTreatySlicer.get_policy_filter(policies, treatyStart, treatyEnd, 1)                       
+        policyFilter = input.prospectiveTreatySlicer.get_policy_filter(policies, treatyStart, treatyEnd, 1)                       
         subset = policies.loc[policyFilter]
         days = input.prospectiveTreatySlicer.get_days(subset, treatyStart, treatyEnd)                       
         totalDays = days.sum()
@@ -55,6 +51,6 @@ class OnLevel:
     def __CreatePolicyCumulativeFactors(self, rateChanges, policies):
         policies['cumul_factor'] = 1
 
-        for date, factor in zip(rateChanges.date, rateChanges.incr_factor):
+        for date, rate in zip(rateChanges.date, rateChanges.rate):
             policyFilter = policies.start_date >= date
-            policies.loc[policyFilter,'cumul_factor'] *= factor
+            policies.loc[policyFilter,'cumul_factor'] *= 1 + rate
