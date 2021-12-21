@@ -1,0 +1,5 @@
+C:\Users\u851800\source\repos\GcModernization.Common\obj\Debug\net6.0\GcModernization.Common.csproj.AssemblyReference.cache
+C:\Users\u851800\source\repos\GcModernization.Common\obj\Debug\net6.0\GcModernization.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\u851800\source\repos\GcModernization.Common\obj\Debug\net6.0\GcModernization.Common.AssemblyInfoInputs.cache
+C:\Users\u851800\source\repos\GcModernization.Common\obj\Debug\net6.0\GcModernization.Common.AssemblyInfo.cs
+C:\Users\u851800\source\repos\GcModernization.Common\obj\Debug\net6.0\GcModernization.Common.csproj.CoreCompileInputs.cache
