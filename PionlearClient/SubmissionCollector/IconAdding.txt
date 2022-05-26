@@ -1,0 +1,10 @@
+Free icons at http://www.iconarchive.com/
+Save 32 x 32 is large
+Open folder where saved
+Rename file to whatever
+Copy file
+Paste into SubmissionCollector\Icons folder in project
+Open SubmissionCollector\Properties\Resources
+Drag icon into Resources
+Build
+Now icon is available

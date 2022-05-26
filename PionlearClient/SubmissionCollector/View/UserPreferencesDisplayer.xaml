@@ -1,0 +1,762 @@
+﻿<UserControl x:Class="SubmissionCollector.View.UserPreferencesDisplayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:SubmissionCollector.ViewModel.Design"
+             mc:Ignorable="d" d:DesignWidth="700" BorderThickness="5"
+             d:DataContext="{d:DesignInstance {x:Type design:DesignUserPreferencesViewModel}, IsDesignTimeCreatable=True}"
+             Height="1000">
+
+    <UserControl.Resources>
+
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="0, 0, 0, 0"></Setter>
+            <Setter Property="Width" Value="350"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        </Style>
+
+        <Style x:Key="IndentedLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+            <Setter Property="Width" Value="300"></Setter>
+            <Setter Property="Margin" Value="50, 0, 0, 0"></Setter>
+        </Style>
+
+
+        <Style x:Key="HeadingLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+            <Setter Property="Margin" Value="0, 10, 0, -5"></Setter>
+        </Style>
+
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextDecorations" Value="Underline" />
+            <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+
+        <Style x:Key="TitleLabelStyle" TargetType="Label" BasedOn="{StaticResource HeadingLabelStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="Width" Value="Auto"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="0"></Setter>
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+
+        <Style x:Key="CountTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+            <Setter Property="Width" Value="75"></Setter>
+            <EventSetter Event="PreviewTextInput" Handler="CountTextBox_OnPreviewTextInput"></EventSetter>
+        </Style>
+
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="0"></Setter>
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="75"></Setter>
+        </Style>
+
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="IsEnabled" Value="True" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+        </Style>
+
+        <Style x:Key="ExpanderStyle" TargetType="Expander">
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0.1*" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <Label x:Name="MyLabel" Content="{Binding Path=Title}" Style="{StaticResource TitleLabelStyle}"
+                   Margin="0,0,0,3" />
+        </DockPanel>
+
+
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <StackPanel Orientation="Vertical">
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Margin="0,10,0,10">
+                            <Label Style="{StaticResource HeadingLabelStyle}">
+                                <TextBlock Style="{StaticResource TextBlockStyle}"> Display</TextBlock>
+                            </Label>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Select Submission Ribbon on Workbook Activate"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="ShowSubmissionRibbonCheckBox" Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=SubmissionRibbonSelectionChoice}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Inventory Pane Width"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="PaneWidthComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=PaneWidthFactors}"
+                                          SelectedValue="{Binding Path=PaneWidthFactor}"
+                                          ToolTip="Numbers represent the pane percent of screen width. For example: 0.1 will make the pane width 10% of Excel" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Inventory Pane Position"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="PanePositionComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=PanePositionTypes}"
+                                          SelectedValue="{Binding Path=PanePosition}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Worksheet Zoom"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="WorksheetZoomComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=SegmentWorksheetZooms}"
+                                          SelectedValue="{Binding Path=SegmentWorksheetZoom}"
+                                          ToolTip="Example: 100 will set all new submission segment worksheets zoom to 100% when created" />
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Margin="0,10,0,10">
+                            <Label Style="{StaticResource HeadingLabelStyle}">
+                                <TextBlock Style="{StaticResource TextBlockStyle}"> General</TextBlock>
+                            </Label>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Administrative Features"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="IsAdminCheckBox" Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=IsAdmin}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="My Cedents Only"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="ShowMyCedentsCheckBox" Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=ShowMyCedents}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="My Underwriters Only"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="ShowMyUnderwritersCheckBox" Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=ShowMyUnderwriters}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Insert rows (input box) default"
+                                       Style="{StaticResource LabelStyle}" />
+                                <TextBox x:Name="InsertRowCountTextBox"
+                                         Style="{StaticResource CountTextBoxStyle}"
+                                         Text="{Binding Path=InsertRowCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Background="{Binding Path = InsertRowCountBackground}"
+                                         LostFocus="InsertRowCountTextBox_OnLostFocus">
+
+                                    <TextBox.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontSize="14"
+                                                       Text="{Binding Path = InsertRowCountMinimumMessage}" />
+                                            <TextBlock FontSize="14"
+                                                       Text="{Binding Path = InsertRowCountMaximumMessage}" />
+                                        </StackPanel>
+                                    </TextBox.ToolTip>
+                                </TextBox>
+                            </StackPanel>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Margin="0,10,0,10">
+                            <Label Style="{StaticResource HeadingLabelStyle}">
+                                <TextBlock Style="{StaticResource TextBlockStyle}"> Package Defaults</TextBlock>
+                            </Label>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Underwriting Year"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="UnderwritingYearComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=UnderwritingYearTypes}"
+                                          SelectedValue="{Binding Path=UnderwritingYearType}" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Use Me As Underwriter"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="UseMeAsUnderwriterCheckBox" Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=UseMeAsUnderwriter}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Label Style="{StaticResource HeadingLabelStyle}">
+                                <TextBlock Style="{StaticResource TextBlockStyle}">Submission Segment Defaults</TextBlock>
+                            </Label>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Exposure Basis"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="ExposureBasesComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=ExposureBases}"
+                                          SelectedValue="{Binding Path=ExposureBasis}"
+                                          DisplayMemberPath="ExposureBaseName"
+                                          SelectedValuePath="Id" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Profiles Basis"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="ProfileBasesComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=ProfileBases}"
+                                          SelectedValue="{Binding Path=ProfileBasisId}"
+                                          DisplayMemberPath="Name"
+                                          SelectedValuePath="Id" />
+                            </StackPanel>
+
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Subject Policy ALAE Treatment"
+                                       Style="{StaticResource LabelStyle}" />
+                                <ComboBox x:Name="SubjectPolicyAlaeTreatmentsComboBox"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          ItemsSource="{Binding Path=SubjectPolicyAlaeTreatments}"
+                                          SelectedValue="{Binding Path=SubjectPolicyAlaeTreatment}"
+                                          DisplayMemberPath="Description"
+                                          SelectedValuePath="Id" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Show Loss Expanded In Attributes"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="ArePropertyNodesExpanded"
+                                          Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=ArePropertyNodesExpanded}" />
+                                <Label x:Name="ArePropertyNodesExpandedToolTip"
+                                       Width="25" Height="25"
+                                       ToolTipService.ShowDuration="20000" Margin="5,0,0,0">
+
+                                    <Label.Background>
+                                        <ImageBrush
+                                            ImageSource="/SubmissionCollector;component/View/Icons/Information.png" />
+                                    </Label.Background>
+                                    <Label.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontSize="14" Margin="10,0,0,0">
+                                                Show the Aggregate Loss and Individual Loss attributes expanded (at all time)
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Label.ToolTip>
+                                </Label>
+                            </StackPanel>
+
+                            <Expander x:Name="LiabilityExpander"
+                                      Header="Liability Profiles"
+                                      Style="{StaticResource ExpanderStyle}"
+                                      Margin="0,20,0,0">
+                                <Grid>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Policy Number of Rows"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+
+                                            <TextBox x:Name="PolicyProfileCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=PolicyProfileCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = PolicyProfileCountBackground}"
+                                                     LostFocus="PolicyProfileCountTextBox_OnLostFocus">
+
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = PolicyProfileMinimumRowCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = PolicyProfileMaximumRowCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                            <Expander x:Name="PropertyExpander"
+                                      Header="Property Profiles"
+                                      Style="{StaticResource ExpanderStyle}">
+                                <Grid>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="TIV Number of Rows"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+
+                                            <TextBox x:Name="TotalInsuredValueProfileCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=TotalInsuredValueProfileCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = TotalInsuredValueProfileCountBackground}"
+                                                     LostFocus="TotalInsuredValueProfileCountTextBox_OnLostFocus">
+
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = TotalInsuredValueProfileMinimumRowCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = TotalInsuredValueProfileMaximumRowCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="TIV Expanded Columns"
+                                                   Style="{StaticResource IndentedLabelStyle}"
+                                                   ToolTip="Share, Limit and SIR/Attachment Columns" />
+                                            <CheckBox x:Name="IsTotalInsuredValueProfileExpandedCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsTotalInsuredValueProfileExpanded}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                            <Expander x:Name="WorkerCompExpander" 
+                                      Header="Worker Comp Profiles"
+                                      Style="{StaticResource ExpanderStyle}">
+                                <Grid>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Use Class Codes"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="WorkersCompClassCodesIsActive"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      ToolTip="Instead of State/Hazard"
+                                                      IsChecked="{Binding Path=WorkersCompClassCodesIsActive}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="State and Hazard Group Are Independent"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="WorkersCompStateByHazardGroupIsIndependent"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      ToolTip="Instead of populating the matrix interior, populate the state column and the hazard group row"
+                                                      IsChecked="{Binding Path=WorkersCompStateByHazardGroupIsIndependent}" />
+                                        </StackPanel>
+                                        
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Class Code Number of Rows"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+
+                                            <TextBox x:Name="WorkerCompClassCodeCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=WorkersCompClassCodeCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = WorkersCompClassCodeCountBackground}"
+                                                     LostFocus="WorkersCompClassCodeCountTextBox_OnLostFocus">
+
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = WorkersCompClassCodeMinimumRowCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = WorkersCompClassCodeMaximumRowCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Retentions: Number of Columns"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+
+                                            <TextBox x:Name="WorkerCompStateAttachmentCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=WorkersCompStateAttachmentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = WorkersCompStateAttachmentCountBackground}"
+                                                     LostFocus="WorkersCompStateAttachmentCountTextBox_OnLostFocus">
+
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = WorkersCompStateAttachmentMinimumColumnCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = WorkersCompStateAttachmentMaximumColumnCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+                                        
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+                           
+
+                            <Expander x:Name="PeriodExpander" Header="Historical Period"
+                                      Style="{StaticResource ExpanderStyle}" Margin="0,20,0,0">
+                                <Grid>
+                                    <StackPanel Orientation="Vertical">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Type" Style="{StaticResource IndentedLabelStyle}" />
+                                            <ComboBox x:Name="PeriodTypeComboBox"
+                                                      Style="{StaticResource ComboBoxStyle}"
+                                                      ItemsSource="{Binding Path=PeriodTypes}"
+                                                      SelectedValue="{Binding Path=PeriodType}"
+                                                      DisplayMemberPath="Name"
+                                                      SelectedValuePath="Id"
+                                                      SelectionChanged="PeriodTypeComboBox_OnSelectionChanged" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Number of Periods"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <TextBox x:Name="HistoricalPeriodCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=HistoricalPeriodCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = HistoricalPeriodCountBackground}"
+                                                     LostFocus="HistoricalPeriodCountTextBox_OnLostFocus">
+
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = HistoricalPeriodMinCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = HistoricalPeriodMaxCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Evaluation Date"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <ComboBox x:Name="EvaluationDateComboBox"
+                                                      Style="{StaticResource ComboBoxStyle}"
+                                                      ItemsSource="{Binding Path=EvaluationDateTypes}"
+                                                      SelectedValue="{Binding Path=EvaluationDateType}" />
+                                            <Label x:Name="EvaluationDateLabelToolTip"
+                                                   Width="25" Height="25"
+                                                   ToolTipService.ShowDuration="20000" Margin="5,0,0,0">
+
+                                                <Label.Background>
+                                                    <ImageBrush
+                                                        ImageSource="/SubmissionCollector;component/View/Icons/Information.png" />
+                                                </Label.Background>
+
+                                                <Label.ToolTip>
+                                                    <StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="Today's Date"
+                                                                       Width="175" />
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="{Binding Path=TodaysDate,  StringFormat=d}" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="End Of Last Quarter's Date" Width="175" />
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="{Binding Path=LastDayOfLastQuarter,  StringFormat=d}" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="End Of Last Half Year's Date" Width="175" />
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="{Binding Path=LastDayOfLastHalfYear,  StringFormat=d}" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="End Of Last Year's Date"
+                                                                       Width="175" />
+                                                            <TextBlock FontSize="14" Margin="10,0,0,0"
+                                                                       Text="{Binding Path=LastDayOfLastYear,  StringFormat=d}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Label.ToolTip>
+                                            </Label>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                            <Expander x:Name="AggregateExpander" Header="Aggregate Loss"
+                                      Style="{StaticResource ExpanderStyle}">
+                                <Grid>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Loss And Alae Combined"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsAggregateLossAndAlaeCombinedCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsAggregateLossAndAlaeCombined}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Paid Column(s)"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsAggregatePaidAvailable"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsAggregatePaidAvailable}" />
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                            <Expander x:Name="IndividualExpander" Header="Individual Loss"
+                                      Style="{StaticResource ExpanderStyle}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10*"/>
+                                        <ColumnDefinition Width="463*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Vertical" Grid.ColumnSpan="2">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Number of Rows"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+
+                                            <TextBox x:Name="IndividualLossCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=IndividualLossCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = IndividualLossCountBackground}"
+                                                     LostFocus="IndividualLossCountTextBox_OnLostFocus">
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = IndividualLossMinimumRowCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = IndividualLossMaximumRowCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Loss And Alae Combined"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsIndividualLossAndAlaeCombinedCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsIndividualLossAndAlaeCombined}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Paid Column(s)"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsIndividualPaidAvailable"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsIndividualPaidAvailable}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Event Code Column"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsEventCodeAvailableCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsEventCodeAvailable}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Policy Limit Column"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsLimitAvailableCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsPolicyLimitAvailable}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Policy SIR/Attachment Column"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsAttachmentAvailableCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsPolicyAttachmentAvailable}" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Accident Date Column"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsAccidentDateAvailableCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsAccidentDateAvailable}"
+                                                      Checked="IsAccidentDateAvailableCheckBox_OnChecked"
+                                                      Unchecked="IsAccidentDateAvailableCheckBox_OnChecked"
+                                                      Background="{Binding Path = AccidentDateBackground}">
+                                                <CheckBox.ToolTip>
+                                                    <TextBlock FontSize="14"
+                                                               Text="Based on historical period type, this checkbox may have to be checked" />
+                                                </CheckBox.ToolTip>
+                                            </CheckBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Policy Date Column"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsPolicyDateAvailableCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsPolicyDateAvailable}"
+                                                      Checked="IsPolicyDateAvailableCheckBox_OnChecked"
+                                                      Unchecked="IsPolicyDateAvailableCheckBox_OnChecked"
+                                                      Background="{Binding Path = PolicyDateBackground}">
+                                                <CheckBox.ToolTip>
+                                                    <TextBlock FontSize="14"
+                                                               Text="Based on historical period type, this checkbox may have to be checked" />
+                                                </CheckBox.ToolTip>
+                                            </CheckBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Report Date Column"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+                                            <CheckBox x:Name="IsReportDateAvailableCheckBox"
+                                                      Style="{StaticResource CheckBoxStyle}"
+                                                      IsChecked="{Binding Path=IsReportDateAvailable}"
+                                                      Checked="IsReportDateAvailableCheckBox_OnChecked"
+                                                      Unchecked="IsReportDateAvailableCheckBox_OnChecked"
+                                                      Background="{Binding Path = ReportDateBackground}">
+                                                <CheckBox.ToolTip>
+                                                    <TextBlock FontSize="14"
+                                                               Text="Based on historical period type, this checkbox may have to be checked" />
+                                                </CheckBox.ToolTip>
+                                            </CheckBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                            <Expander x:Name="RateChangeExpander" Header="Rate Change"
+                                      Style="{StaticResource ExpanderStyle}">
+                                <Grid>
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Number of Rows"
+                                                   Style="{StaticResource IndentedLabelStyle}" />
+
+                                            <TextBox x:Name="RateChangeCountTextBox"
+                                                     Style="{StaticResource CountTextBoxStyle}"
+                                                     Text="{Binding Path=RateChangeCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Background="{Binding Path = RateChangeCountBackground}"
+                                                     LostFocus="RateChangeCountTextBox_OnLostFocus">
+                                                <TextBox.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = RateChangeMinimumRowCountMessage}" />
+                                                        <TextBlock FontSize="14"
+                                                                   Text="{Binding Path = RateChangeMaximumRowCountMessage}" />
+                                                    </StackPanel>
+                                                </TextBox.ToolTip>
+                                            </TextBox>
+                                        </StackPanel>
+
+
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Margin="0,10,0,10">
+                            <Label Style="{StaticResource HeadingLabelStyle}">
+                                <TextBlock Style="{StaticResource TextBlockStyle}">Submission Segment Behavior</TextBlock>
+                            </Label>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Subline Customization"
+                                       Style="{StaticResource LabelStyle}" />
+                                <CheckBox x:Name="AllowSublineFlexibilityCheckBox"
+                                          Style="{StaticResource CheckBoxStyle}"
+                                          IsChecked="{Binding Path=AllowSublineFlexibility}" />
+                                <Label x:Name="AllowSublineFlexibilityToolTip"
+                                       Width="25" Height="25"
+                                       ToolTipService.ShowDuration="20000" Margin="5,0,0,0">
+
+                                    <Label.Background>
+                                        <ImageBrush
+                                            ImageSource="/SubmissionCollector;component/View/Icons/Information.png" />
+                                    </Label.Background>
+                                    <Label.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontSize="14" Margin="10,0,0,0">
+                                                Vary subline composition within Submission Segment data components.
+                                                <LineBreak></LineBreak>
+                                                For example: GL Prem/Ops and GL Product share a single Aggregate Loss Set but each have their own Policy Profile.
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Label.ToolTip>
+                                </Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" />
+
+
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </DockPanel>
+
+
+        <DockPanel Grid.Row="2" Grid.Column="1">
+
+            <Button x:Name="CancelButton" Content="Cancel" Style="{StaticResource ButtonStyle}"
+                    Click="CancelButton_OnClick" HorizontalAlignment="Right" AutomationProperties.AcceleratorKey="N"
+                    DockPanel.Dock="Right" />
+            <Button x:Name="OkButton" Content="OK" Height="25" IsEnabled="{Binding Path = OkButtonEnabled}" Margin="5"
+                    Width="75" Click="OkButton_OnClick" HorizontalAlignment="Right"
+                    AutomationProperties.AcceleratorKey="Y" DockPanel.Dock="Right"
+                    ToolTipService.ShowOnDisabled="true"
+                    ToolTipService.IsEnabled="{Binding Path = OkButtonMessageVisibility}">
+                <Button.ToolTip>
+                    <TextBlock FontSize="14" Text="{Binding Path = OkButtonMessage}" />
+                </Button.ToolTip>
+            </Button>
+
+        </DockPanel>
+
+
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="SubmissionCollector.View.UmbrellaTypeAllocator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dvm="clr-namespace:SubmissionCollector.ViewModel.Design"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type dvm:DesignUmbrellaTypeAllocatorViewModel},  IsDesignTimeCreatable=True}"
+             d:DesignHeight="200" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="5,5,5,0" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#5B9BD5" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        
+        <Label x:Name="OverallLabel"
+               Grid.Row="0"
+               Style="{StaticResource LabelStyle}"
+               HorizontalContentAlignment="Center"
+               Content="{Binding Path = Title}"
+               FontWeight="Bold"
+               Background="Transparent"
+               BorderThickness="2"
+               Foreground="Black"
+               VerticalAlignment="Top" />
+
+        <ListBox Name="UmbrellaTypeListBox" ItemsSource="{Binding UmbrellaItems}" Grid.Row="1" Margin="5" SelectionChanged="UmbrellaTypeListBox_OnSelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding UmbrellaTypeName}" Margin="5,5,5,0" VerticalAlignment="Center" 
+                              VerticalContentAlignment="Center" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnUnchecked"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <DockPanel  Grid.Row="2" Margin="5,5,5,0">
+            <Button x:Name="CancelButton" Content="Cancel"  Height="25" Margin ="5" Width="75" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="CancelButton_OnClick"/>
+            <Button x:Name="OkButton" Content="Ok"  Height="25" Margin ="5" Width="75" DockPanel.Dock="Right" HorizontalAlignment="Right" 
+                    Click="OkButton_OnClick"
+                    IsEnabled="{Binding Path = OkButtonEnabled}"
+                    ToolTipService.ShowOnDisabled="true"
+                    ToolTipService.IsEnabled="{Binding Path = OkButtonToolTipVisibility}">
+                <Button.ToolTip>
+                    <TextBlock FontSize="14" Text="{Binding Path = OkButtonToolTip}" />
+                </Button.ToolTip>
+            </Button>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

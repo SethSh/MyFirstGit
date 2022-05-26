@@ -1,0 +1,649 @@
+﻿<UserControl x:Class="SubmissionCollector.View.SublineWizard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:SubmissionCollector.ViewModel"
+             xmlns:converters="clr-namespace:SubmissionCollector.View.Converters"
+             xmlns:subline="clr-namespace:SubmissionCollector.Models.Subline"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1400"
+             xmlns:dvm="clr-namespace:SubmissionCollector.ViewModel.Design"
+             d:DataContext = "{d:DesignInstance {x:Type dvm:DesignSublineSelectorWizardViewModel},  IsDesignTimeCreatable=True}">
+
+    <UserControl.Resources>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+
+        <Style x:Key="ToolTipTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+
+        <Style x:Key="BigTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="Height" Value="Auto"></Setter>
+            <Setter Property="Width" Value="Auto"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background" Value="#5B9BD5"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+        </Style>
+
+        <Style x:Key="BigLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+            <Setter Property="Margin" Value="0,0,5,0"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+
+        <Style x:Key="InformationLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property ="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/Information.png"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CheckBoxTemplate" TargetType="CheckBox">
+            <Setter Property="ToolTipService.ShowDuration" Value="20000"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+
+        <Style x:Key="MyDockTemplate" TargetType="DockPanel">
+            <Setter Property="Margin" Value="0, 0, 0, 0"></Setter>
+        </Style>
+
+        <Style x:Key="MyButtonOnLabelTemplate" TargetType="Label">
+            <Setter Property="Height" Value="20"></Setter>
+            <Setter Property="Width" Value="20"></Setter>
+            <Setter Property="Margin" Value="0,0,0,5"></Setter>
+        </Style>
+
+        <Style x:Key="NewButtonTemplate" TargetType="Label" BasedOn="{StaticResource MyButtonOnLabelTemplate}">
+            <Setter Property="Margin" Value="0, 0, 0, 0"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="ToolTip" Value="Newly created - doesn't yet have a corresponding excel range"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/New.png"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HasDataButtonTemplate" TargetType="Label" BasedOn="{StaticResource MyButtonOnLabelTemplate}">
+            <Setter Property="Margin" Value="0, 0, 0, 0"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="ToolTip" Value="Has data in the corresponding excel range"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/DataInTable.png"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Margin" Value="0,0,5,5"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="SelectionMode" Value="Single"></Setter>
+            <Setter Property="AllowDrop" Value="True"></Setter>
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnPreviewMouseLeftButtonDown"></EventSetter>
+            <EventSetter Event="DragLeave" Handler="ClearLog"></EventSetter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="subline:ISubline">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source= "{Binding Path=ImageSource}" Height="18" Margin="0, -2, 0,0"/>
+                            <TextBlock Text="{Binding Path=ShortNameWithLob}" Margin="10, 0, 0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+        <Style x:Key="BigListBoxStyle" TargetType="ListBox" BasedOn="{StaticResource ListBoxStyle}">
+            <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+
+        <Style x:Key="ComponentViewListBoxStyle" TargetType="ListBox" BasedOn="{StaticResource ListBoxStyle}">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <EventSetter Event="Drop" Handler="ComponentViewListBox_OnDrop"/>
+            <EventSetter Event="DragOver" Handler="ComponentViewListBox_OnDrag"/>
+        </Style>
+
+
+        <!-- This style is used for buttons, to remove the WPF default 'animated' mouse over effect -->
+        <Style x:Key="GeneralButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" 
+                            BorderThickness="2"
+                            Padding="4,2" 
+                            BorderBrush="DarkGray" 
+                            CornerRadius="3" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AddButtonStyle" TargetType="Button" BasedOn="{StaticResource GeneralButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/Add.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Add item immediately to the right"/>
+            <EventSetter Event="Click" Handler="AddComponentViewClick"></EventSetter>
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource GeneralButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/DeleteX.png" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Delete this item" />
+            <EventSetter Event="Click" Handler="DeleteComponentViewClick"></EventSetter>
+        </Style>
+
+        <DataTemplate x:Key="ComponentDataTemplate" DataType="{x:Type viewModel:ComponentView}" >
+            <Border Margin="5"
+                    BorderThickness="{Binding Path=BorderThickness}"
+                    BorderBrush="Black">
+                <DockPanel Name="ComponentDataDockPanel" 
+                           Visibility="{Binding Path=IsVisible, Converter={StaticResource VisibilityConverter}}"
+                           Margin="0,0,0,0"
+                           LastChildFill="True">
+
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,0" LastChildFill="True" Background="#5B9BD5">
+                        <Label Style="{StaticResource NewButtonTemplate}" DockPanel.Dock="Right" 
+                               
+                               Visibility="{Binding Path=IsNew, Converter={StaticResource VisibilityConverter}}"/>
+                        <Label Style="{StaticResource HasDataButtonTemplate}" DockPanel.Dock="Right" 
+                               Visibility="{Binding Path=HasData, Converter={StaticResource VisibilityConverter}}"/>
+
+                        <Label Style="{StaticResource LabelStyle}" Content="{Binding Name}"  BorderThickness="0"/>
+                    </DockPanel>
+
+                    <DockPanel DockPanel.Dock="Bottom" Background="White" >
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0">
+                            <Button Style="{StaticResource DeleteButtonStyle}"
+                                    Visibility="{Binding Path=IsDeleteButtonVisible, Converter={StaticResource VisibilityConverter}}"/>
+
+                            <Button Style="{StaticResource AddButtonStyle}"
+                                    Visibility="{Binding Path=IsAddButtonVisible, Converter={StaticResource VisibilityConverter}}"/>
+                        </StackPanel>
+
+                    </DockPanel>
+
+                    <ListBox Style="{StaticResource ComponentViewListBoxStyle}"
+                             ItemsSource="{Binding Path=Sublines}"/>
+
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModel:SublineWizardViewModel}"/>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="0.20*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="25"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="AvailableLabelToolTip" Grid.Row="1" Grid.Column="0"
+               Style="{StaticResource InformationLabelStyle}"
+               Margin="10,5,0,0">
+
+            <Label.ToolTip>
+                <StackPanel >
+                    <TextBlock FontWeight="Bold" Style="{StaticResource BigTextBlockStyle}" Margin="0,0,0,5">Available Sublines</TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0,0,0">
+                        &#x2022; Add subline to Submission Segment Sublines:
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="35,0,0,0">
+                        drag and drop subline <Bold>from</Bold> here.
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,10,0,0">
+                        &#x2022; Remove subline from Submission Segment Sublines:
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="35,0,0,0">
+                        drag and drop subline <Bold>to</Bold> here.
+                    </TextBlock>
+                </StackPanel>
+            </Label.ToolTip>
+        </Label>
+
+        <Label x:Name="AvailableLabel"
+               Grid.Row="1" Grid.Column="1"
+               Background="#00FFFFFF"
+               Foreground="Black"
+               Style="{StaticResource BigLabelStyle}"
+               Content="Available Sublines"/>
+
+        <DockPanel Name="AvailableDock" 
+                   Style="{StaticResource MyDockTemplate}"
+                   Grid.Row="2" Grid.Column="1" Grid.RowSpan="4" LastChildFill="True">
+
+            <ListBox x:Name="Available" 
+                     Style="{StaticResource BigListBoxStyle}"
+                     Background="White"
+                     ItemsSource="{Binding Path=AvailableSublines}" 
+                     Drop="Available_OnDrop"
+                     DragOver="Available_OnDrag"
+                     MouseDoubleClick="Available_OnMouseDoubleClick"
+                     PreviewMouseDoubleClick="Available_OnPreviewMouseDoubleClick">
+            </ListBox>
+        </DockPanel>
+
+        <Label x:Name="SegmentLabelToolTip"
+               Grid.Row="1" Grid.Column="2" 
+               Style="{StaticResource InformationLabelStyle}"
+               VerticalAlignment="Center"
+               Margin="0">
+
+            <Label.ToolTip>
+                <StackPanel>
+
+                    <TextBlock FontWeight="Bold" Style="{StaticResource BigTextBlockStyle}" Margin="0,0,0,5">Submission Segment Sublines</TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" TextDecorations="Underline" Margin="10,10,0,0">Add/Remove</TextBlock>
+
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0,0,0">
+                        &#x2022; Add subline: drag and drop <Bold>from</Bold> Available Sublines.
+                        <LineBreak />
+                        &#x2022; Remove subline: drag and drop <Bold>to</Bold> Available Sublines.
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" TextDecorations="Underline" Margin="10,10,0,0" 
+                               Visibility= "{Binding Path=AreSublinesCustomizable, Converter={StaticResource VisibilityConverter}}">
+                        Add to Profile/Historical Box
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0,0,0"
+                               Visibility= "{Binding Path=AreSublinesCustomizable, Converter={StaticResource VisibilityConverter}}">
+                        &#x2022; Add subline: drag and drop <Bold>into</Bold> the profile/historical box.
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" FontStyle="Italic" Margin="20,0,0,0"
+                               Visibility= "{Binding Path=AreSublinesCustomizable, Converter={StaticResource VisibilityConverter}}">
+                        This will <Bold>not</Bold> remove subline from here
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" TextDecorations="Underline" Margin="10,10,0,0">
+                        Subline Combinations
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0,0,0">
+                        &#x2022; Workers Compensation, Property and Auto Physical Damage <Bold>can't</Bold> be combined with other lines of business.
+                    </TextBlock>
+                </StackPanel>
+            </Label.ToolTip>
+        </Label>
+
+        <Label x:Name="SegmentLabel"
+               Grid.Row="1" Grid.Column="3" 
+               Style="{StaticResource BigLabelStyle}"
+               HorizontalContentAlignment="Center"
+               Content="Submission Segment Sublines"
+               Margin="0,0,0,0" />
+
+        <DockPanel Name="SegmentDock" 
+                   Grid.Row="2" Grid.Column="3" Grid.RowSpan="{Binding SelectedSublinesRowSpan}"
+                   ZIndex="1000">
+            <ListBox x:Name="Segment"
+                     Style="{StaticResource BigListBoxStyle}"
+                     ItemsSource="{Binding Path=SegmentSublines}" 
+                     FontWeight="Bold"
+                     HorizontalContentAlignment="Center"
+                     Drop="Segment_OnDrop"
+                     DragOver="Segment_OnDrag"
+                     Margin="0,0,0,2">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="subline:ISubline">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source= "{Binding Path=ImageSource}" Height="18" Margin="0, -2, 0,0"/>
+                            <TextBlock Text="{Binding Path=NameWithLob}" Margin="10, 0, 0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+        </DockPanel>
+
+        <CheckBox IsChecked="{Binding Path=AutomaticallySyncSublines}"
+                    Visibility= "{Binding Path=AreSublinesCustomizable, Converter={StaticResource VisibilityConverter}}"
+                    Grid.Row="3" Grid.Column="3" 
+                    Style="{StaticResource CheckBoxTemplate}">
+            <TextBlock Text="Automatic subline synchronization" Style="{StaticResource ToolTipTextBlockStyle}"/>
+            <CheckBox.ToolTip>
+                <TextBlock Margin="10,0,0,0" Style="{StaticResource ToolTipTextBlockStyle}">
+                    Adding a submission segment subline will <Bold>automatically add</Bold>
+                    <LineBreak/>
+                    that same subline to the right-most item when appropriate
+                </TextBlock>
+            </CheckBox.ToolTip>
+        </CheckBox>
+
+        <Label x:Name="DataComponentLabelToolTip" Grid.Row="4" Grid.Column="2"
+               Style="{StaticResource InformationLabelStyle}"
+               Margin="0,5,0,0"
+               Visibility="{Binding Path=AreSublinesCustomizable, Converter={StaticResource VisibilityConverter}}">
+
+            <Label.ToolTip >
+                <StackPanel >
+                    <TextBlock FontWeight="Bold" Style="{StaticResource BigTextBlockStyle}" Margin="0,0,0,5">Profile/Historical Sublines</TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" TextDecorations="Underline" Margin="10,10,0,0">Add/Remove</TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0,0,0">
+                        &#x2022; Add subline: drag and drop subline <Bold>from</Bold> Submission Segment Sublines
+                        <LineBreak></LineBreak>
+                        &#x2022; Remove subline: drag and drop subline into the trash
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" TextDecorations="Underline" Margin="10,10,0,0">Move Within Row</TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0">
+                        &#x2022; Move subline: drag and drop subline into another profile/historical box
+                    </TextBlock>
+                </StackPanel>
+            </Label.ToolTip>
+        </Label>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto" Grid.Row="4" Grid.Column="3">
+
+            <Border Visibility="{Binding Path=AreSublinesCustomizable, Converter={StaticResource VisibilityConverter}}" 
+                    BorderBrush="Black" BorderThickness="1">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Name = "PolicyRow" Height="{Binding Path=PolicyRowHeight}" />
+                        <RowDefinition Name = "StateRow" Height="{Binding Path=StateRowHeight}" />
+                        <RowDefinition Name = "ExposureRow" Height="{Binding Path=ExposureRowHeight}" />
+                        <RowDefinition Name = "AggregateLossRow" Height="{Binding Path=AggregateLossRowHeight}" />
+                        <RowDefinition Name = "IndividualLossRow" Height="{Binding Path=IndividualLossRowHeight}" />
+                        <RowDefinition Name = "RateChangeLossRow" Height="{Binding Path=RateChangeRowHeight}" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Name="DataComponent1Column" Width="1*" />
+                        <ColumnDefinition Name="DataComponent2Column" Width="1*" />
+                        <ColumnDefinition Name="DataComponent3Column" Width="1*" />
+                        <ColumnDefinition Name="DataComponent4Column" Width="1*" />
+                        <ColumnDefinition Name="DataComponent5Column" Width="1*" />
+                        <ColumnDefinition Name="DataComponent6Column" Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ContentPresenter Content="{Binding Path=PolicyProfile1}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=PolicyProfile2}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=PolicyProfile3}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=PolicyProfile4}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=PolicyProfile5}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=PolicyProfile6}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=StateProfile1}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=StateProfile2}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=StateProfile3}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=StateProfile4}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=StateProfile5}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=StateProfile6}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+
+                    <ContentPresenter Content="{Binding Path=ExposureSet1}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=ExposureSet2}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=ExposureSet3}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=ExposureSet4}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=ExposureSet5}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=ExposureSet6}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+
+                    <ContentPresenter Content="{Binding Path=AggregateLossSet1}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=AggregateLossSet2}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=AggregateLossSet3}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=AggregateLossSet4}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=AggregateLossSet5}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=AggregateLossSet6}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+
+                    <ContentPresenter Content="{Binding Path=IndividualLossSet1}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=IndividualLossSet2}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=IndividualLossSet3}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=IndividualLossSet4}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=IndividualLossSet5}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=IndividualLossSet6}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+
+                    <ContentPresenter Content="{Binding Path=RateChangeSet1}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=RateChangeSet2}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=RateChangeSet3}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=RateChangeSet4}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=RateChangeSet5}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+                    <ContentPresenter Content="{Binding Path=RateChangeSet6}"
+                                      ContentTemplate="{StaticResource ComponentDataTemplate}"
+                                      Grid.Row="{Binding Path=RowIndex}" Grid.Column="{Binding Path=ColumnIndex}" />
+
+
+
+
+
+
+                </Grid>
+            </Border>
+
+        </ScrollViewer>
+
+        <CheckBox x:Name="UserPreferenceSublineCustomizationCheckBox" Style="{StaticResource CheckBoxTemplate}" Margin="5" 
+                      IsChecked="{Binding Path=IsUserPreferenceAllowSublinesCustomization}" 
+                      Click="UserPreferenceSublineFlexibilityCheckBox_OnClick"
+                      Grid.Row="6" Grid.Column="1"  Grid.ColumnSpan="2"
+                      VerticalAlignment="Center" >
+            <TextBlock Text="Allow Subline Customization" Style="{StaticResource ToolTipTextBlockStyle}"/>
+            <CheckBox.ToolTip>
+                <StackPanel >
+                    <TextBlock FontWeight="Bold" Style="{StaticResource BigTextBlockStyle}" Margin="0,0,0,5">Allow Subline Customization</TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,0,0,0">
+                            This checkbox is the same as the <Bold>allow subline customization</Bold> checkbox on the user preference form.
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="10,20,0,0">
+                            Note: This form will not always redraw.  Un-checking this checkbox won't change this form's appearance when:
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="60,0,0,0">
+                            &#x2022; <Bold>allow subline customization</Bold> checkbox is unchecked, and
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource ToolTipTextBlockStyle}" Margin="60,0,0,0">
+                            &#x2022; the submission segment is currently <Italic>subline customized</Italic>
+                    </TextBlock>
+                </StackPanel>
+            </CheckBox.ToolTip>
+        </CheckBox>
+
+        <TextBlock x:Name="LogLabel"
+                   Grid.Row="6" Grid.Column="3" 
+                   Style="{StaticResource ToolTipTextBlockStyle}"
+                   Margin="5,0,0,0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Text="{Binding Path=Log}"
+                   FontWeight="DemiBold"
+                   Foreground="Red" 
+                   TextWrapping="WrapWithOverflow">
+        </TextBlock>
+
+        <DockPanel  Grid.Row="6" Grid.Column="3" Margin="5">
+            <Button x:Name="CancelButton" Content="Cancel"  Height="25" Margin ="5" Width="75" DockPanel.Dock="Right" Click="CancelButton_OnClick"/>
+            <Button x:Name="OkButton" Content="Ok" Height="25" Margin="5" Width="75" DockPanel.Dock="Right"
+                    Click="OkButton_OnClick"
+                    IsEnabled="{Binding Path = OkButtonEnabled}"
+                    ToolTipService.ShowOnDisabled="true"
+                    ToolTipService.IsEnabled="{Binding Path = OkButtonToolTipVisibility}">
+                <Button.ToolTip>
+                    <TextBlock FontSize="14" Text="{Binding Path = OkButtonToolTip}" />
+                </Button.ToolTip>
+            </Button>
+
+            <Rectangle x:Name="TrashImage"  
+                       Height="40" Width="40" 
+                       Margin="5"
+                       ToolTip="Trash: To remove sublines from item, drag and drop here"  
+                       HorizontalAlignment="Right" VerticalAlignment="Center" 
+                       AllowDrop="true" 
+                       DragEnter="TrashImage_OnDragEnter" 
+                       DragOver="TrashImage_OnDragOver" 
+                       Drop="TrashImage_OnDrop" 
+                       DragLeave="ClearLog">
+                <Rectangle.Fill >
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/Trash.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+        </DockPanel>
+
+    </Grid>
+</UserControl>
+

@@ -1,0 +1,1089 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <RootNamespace>SubmissionCollector</RootNamespace>
+    <AssemblyName>SubmissionCollector</AssemblyName>
+    <VSTO_HostDocumentName>SubmissionCollector.xltx</VSTO_HostDocumentName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <DefineConstants>VSTO40</DefineConstants>
+    <OfficeApplication>Excel</OfficeApplication>
+    <ProjectGuid>{AF1CAEF4-46F5-4258-8BEC-095C7626A131}</ProjectGuid>
+    <SolutionID>b824e0cf-5510-4516-be48-839bd851f91e</SolutionID>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>True</IsWebBootstrapper>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>\\mrameu1-w00008\submissioncollector\</PublishUrl>
+    <InstallUrl>https://mrameu1-w00009.am.munichre.com/submissioncollector/</InstallUrl>
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.1.1</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>0</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <ProductName>BEX Submission Collector Prod</ProductName>
+    <PublisherName>Munich Re Group</PublisherName>
+    <SupportUrl />
+    <FriendlyName>Bex Submission Collector</FriendlyName>
+    <OfficeApplicationDescription />
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <PropertyGroup>
+    <VSTO_EmbedTypeLibraryInAssembly>false</VSTO_EmbedTypeLibraryInAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="CircularProgressBar, Version=2.6.6823.24527, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CircularProgressBar.2.6.6823.24527\lib\net35-client\CircularProgressBar.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.JsonWebTokens.6.8.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Logging.6.8.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Tokens.6.8.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.2.3.22\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="MunichRe.Bex.ApiClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MunichRe.Bex.ApiClient.1.0.1\lib\net472\MunichRe.Bex.ApiClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IdentityModel.Tokens.Jwt.6.8.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WinFormAnimation, Version=1.5.6298.3372, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WinFormAnimation.1.5.6298.3372\lib\net35-client\WinFormAnimation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WpfAnimatedGif, Version=1.4.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WpfAnimatedGif.1.4.16\lib\net\WpfAnimatedGif.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.8\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.8\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Excel.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Vbe.Interop, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionPanes\InventoryActionPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ActionPanes\InventoryActionPane.Designer.cs">
+      <DependentUpon>InventoryActionPane.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllocationExtensions.cs" />
+    <Compile Include="ConfigurationHelper.cs" />
+    <Compile Include="Enums\MessageType.cs" />
+    <Compile Include="ExcelConstants.cs" />
+    <Compile Include="ExcelEventSetters\CalculationSetter.cs" />
+    <Compile Include="ExcelEventSetters\CursorToWait.cs" />
+    <Compile Include="ExcelEventSetters\WorkbookUnprotector.cs" />
+    <Compile Include="ExcelUtilities\ExcelSheetActivateEventManager.cs" />
+    <Compile Include="ExcelUtilities\ExcelSheetChangeEventManager.cs" />
+    <Compile Include="ExcelUtilities\Extensions\RangeExtensions.cs" />
+    <Compile Include="ExcelUtilities\Extensions\WorkbookExtensions.cs" />
+    <Compile Include="ExcelUtilities\Extensions\WorksheetExtensions.cs" />
+    <Compile Include="ExcelUtilities\PolicyProfileDimensionConverter\BasePolicyProfileDimension.cs" />
+    <Compile Include="ExcelUtilities\PolicyProfileDimensionConverter\FlatPolicyProfileDimension.cs" />
+    <Compile Include="ExcelUtilities\PolicyProfileDimensionConverter\IPolicyProfileDimension.cs" />
+    <Compile Include="ExcelUtilities\PolicyProfileDimensionConverter\LimitBySirPolicyProfileDimension.cs" />
+    <Compile Include="ExcelUtilities\PolicyProfileDimensionConverter\SirByLimitPolicyProfileDimension.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseColumnDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseColumnInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseColumnOperator.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseRowOperator.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\IndividualLossSetRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\IndividualLossSetRowInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\WorkersCompClassCodeProfileRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\TotalInsuredValueProfileRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\WorkersCompClassCodeProfileRowInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\TotalInsuredValueProfileRowInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\RateChangeSetRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\RateChangeSetRowInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\WorkersCompStateAttachmentColumnInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeTransposer\BaseRangeTransposer.cs" />
+    <Compile Include="ExcelEventSetters\ExcelAlertDisabler.cs" />
+    <Compile Include="ExcelEventSetters\ExcelEventDisabler.cs" />
+    <Compile Include="ExcelEventSetters\ExcelScreenUpdateDisabler.cs" />
+    <Compile Include="ExcelUtilities\ExcelHelper.cs" />
+    <Compile Include="ExcelUtilities\RangeTransposer\IRangeTransposer.cs" />
+    <Compile Include="ExcelUtilities\RangeTransposer\RangeReverseTransposer.cs" />
+    <Compile Include="ExcelUtilities\PolicyProfileDimensionConverter\PolicyProfileDimensionValidator.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseRowInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\IRangeResizer.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\PolicyProfileRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\PolicyProfileColumnDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\PeriodSetRowDeleter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\PeriodSetRowInserter.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\BaseRangeResizer.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\PolicyProfileColumnInserter.cs" />
+    <Compile Include="ExcelUtilities\StateSort\BaseStateSorter.cs" />
+    <Compile Include="ExcelUtilities\ProspectiveExposureSummaryBuilder.cs" />
+    <Compile Include="ExcelWorkspaceFolder\CheckboxSynchronizationFixer.cs" />
+    <Compile Include="ExcelWorkspaceFolder\FactorsWorksheetCreator.cs" />
+    <Compile Include="ExcelWorkspaceFolder\FindAndReplacer.cs" />
+    <Compile Include="ExcelWorkspaceFolder\LedgerRenderer.cs" />
+    <Compile Include="ExcelWorkspaceFolder\CedentSelectorManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\CustomWorksheetManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\CustomXmlPartManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\DateExtensions.cs" />
+    <Compile Include="ExcelWorkspaceFolder\DecoupleManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\RangeNameDisplayer.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkersCompStateByHazardGroupIndependentActivator.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkersCompClassCodeReferenceSearchManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkersCompClassCodeReferenceManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkersCompClassCodeMapper.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkersCompClassCodeActivator.cs" />
+    <Compile Include="ExcelWorkspaceFolder\TotalInsuredValueExpandManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\RatingAnalysisManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\ServerHistoryManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SynchronizationManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\DirtyFlagSetter.cs" />
+    <Compile Include="ExcelWorkspaceFolder\ExcelWorkspace.cs" />
+    <Compile Include="ExcelWorkspaceFolder\GetStartedDocumentationManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\PeriodFillManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\PolicyProfileDimensionHelpManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\PolicyProfileDimensionManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\QualityControlDocumentationManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\ReferenceDataManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\RenewDocumentationManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\RenewManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SegmentMover\BaseSegmentDisplayOrderMover.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SegmentMover\IncreaseSegmentDisplayOrder.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SegmentMover\ISegmentDisplayOrderMover.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SegmentMover\DecreaseSegmentDisplayOrder.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SerializeManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\RangeMover.cs" />
+    <Compile Include="ExcelWorkspaceFolder\ServerPackageDeleteManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\StateSortManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\SublineWizardManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\RangeTransposeManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkbookLogger.cs" />
+    <Compile Include="ExcelWorkspaceFolder\UmbrellaTypePolicyProfileWizardManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\UmbrellaTypeAllocatorManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\UnderwriterSelectorManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\UserPreferenceModifier.cs" />
+    <Compile Include="ExcelWorkspaceFolder\UserPreferencesManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkbookRebuilderManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkbookUploader.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkbookRebuilder.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkbookSaveManager.cs" />
+    <Compile Include="ExcelWorkspaceFolder\WorkbookUploaderManager.cs" />
+    <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Extensions\ComparisonExtensions.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="MessageMetric.cs" />
+    <Compile Include="Models\BaseInventoryItem.cs" />
+    <Compile Include="Models\Comparers\UmbrellaTypeComparer.cs" />
+    <Compile Include="Models\DataComponents\BaseProfileExcelMatrix.cs" />
+    <Compile Include="Models\DataComponents\ExcelComponentsExtensions.cs" />
+    <Compile Include="Models\DataComponents\IExcelComponent.cs" />
+    <Compile Include="Models\DataComponents\IProfileExcelMatrix.cs" />
+    <Compile Include="Models\DataComponents\IProfileFormatter.cs" />
+    <Compile Include="Models\DataComponents\IProfileFormatterHandler.cs" />
+    <Compile Include="Models\DataComponents\IRangeHidable.cs" />
+    <Compile Include="Models\DataComponents\IRangeMovable.cs" />
+    <Compile Include="Models\DataComponents\IRangeResizable.cs" />
+    <Compile Include="Models\DataComponents\IRangeSumable.cs" />
+    <Compile Include="Models\DataComponents\IRangeTransposable.cs" />
+    <Compile Include="Models\DataComponents\MultipleOccurrenceProfileExcelMatrix.cs" />
+    <Compile Include="Models\DataComponents\MultipleOccurrenceSegmentExcelMatrix.cs" />
+    <Compile Include="Models\DataComponents\MultipleOccurrenceSegmentLossExcelMatrix.cs" />
+    <Compile Include="Models\DataComponents\SingleOccurrenceProfileExcelMatrix.cs" />
+    <Compile Include="Models\Enums\AttachOptions.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\ExcelMatrix.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\AggregateLossSetExcelMatrixHelper2.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\IndividualLossSetExcelMatrixHelper2.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\RateChangeExcelMatrix.cs" />
+    <Compile Include="Models\Historicals\Ledger.cs" />
+    <Compile Include="Models\Historicals\PeriodSet.cs" />
+    <Compile Include="Models\Historicals\IndividualLossSet.cs" />
+    <Compile Include="Models\Historicals\RateChangeSet.cs" />
+    <Compile Include="Models\IPackageInventoryItem.cs" />
+    <Compile Include="Models\ISegmentInventoryItem.cs" />
+    <Compile Include="Models\ObjectExtension.cs" />
+    <Compile Include="Models\Package\ServerCommunication.cs" />
+    <Compile Include="Models\Profiles\ConstructionTypeProfile.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\ConstructionTypeExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\BaseSingleOccurenceExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\BaseMultiOccurenceExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\MinnesotaRetentionExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\WorkersCompStateAttachmentExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\WorkersCompClassCodeExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\WorkersCompStateHazardGroupExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\RateChangeSetExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\IndividualLossSetExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\AggregateLossSetExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\IExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\ExposureSetExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\TotalInsuredValueExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\ProtectionClassExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\OccupancyTypeExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\HazardExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\ConstructionTypeExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\StateExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\Helpers\PolicyExcelMatrixHelper.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\MinnesotaRetentionExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\WorkersCompClassCodeExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\WorkersCompStateAttachmentExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\WorkersCompStateHazardGroupExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\TotalInsuredValueExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\ProtectionClassExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\OccupancyTypeExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\SublineExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\UmbrellaExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\MinnesotaRetention.cs" />
+    <Compile Include="Models\Profiles\WorkersCompClassCodeProfile.cs" />
+    <Compile Include="Models\Profiles\WorkersCompStateAttachmentProfile.cs" />
+    <Compile Include="Models\Profiles\WorkersCompStateHazardGroupProfile.cs" />
+    <Compile Include="Models\Profiles\TotalInsuredValueProfile.cs" />
+    <Compile Include="Models\Profiles\ProtectionClassProfile.cs" />
+    <Compile Include="Models\Profiles\OccupancyTypeProfile.cs" />
+    <Compile Include="Models\Profiles\SublineProfile.cs" />
+    <Compile Include="Models\Profiles\UmbrellaProfile.cs" />
+    <Compile Include="Models\Segment\AggregateLossSetDescriptor.cs" />
+    <Compile Include="Models\Comparers\SublineComparer.cs" />
+    <Compile Include="Models\Segment\ILossSetDescriptor.cs" />
+    <Compile Include="Models\Segment\IndividualLossSetDescriptor.cs" />
+    <Compile Include="Models\Segment\RangeLocator.cs" />
+    <Compile Include="Models\Segment\RangeMoverValidator.cs" />
+    <Compile Include="Models\Segment\UmbrellaValidator.cs" />
+    <Compile Include="Models\Subline\AutoPhysicalDamage\CommercialSubline.cs" />
+    <Compile Include="Models\Subline\Property\CommercialSubline.cs" />
+    <Compile Include="Models\Subline\AutoPhysicalDamage\PersonalSubline.cs" />
+    <Compile Include="Models\Subline\Property\HomeownersPropertySubline.cs" />
+    <Compile Include="Models\Subline\WorkersCompensation\IndemnitySubline.cs" />
+    <Compile Include="Models\Subline\WorkersCompensation\MedicalSubline.cs" />
+    <Compile Include="BexCommunication\ActivityTracker.cs" />
+    <Compile Include="BexCommunication\BexCommunicationManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Design\DesignMessageBoxControlViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignCedentSelectorViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignHistoryViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignMessageBoxForFactorsViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignSynchronizationViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignDiscreteProgressBarViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignMarqueeProgressBarViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignUmbrellaSelectorViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignUmbrellaPolicyProfileWizardViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignUnderwriterSelectorViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignWorkersCompClassCodeSearchViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignWorkersCompClassCodeViewModel.cs" />
+    <Compile Include="ViewModel\Design\DesignUserPreferencesViewModel.cs" />
+    <Compile Include="ViewModel\HistoryViewModel.cs" />
+    <Compile Include="ViewModel\MessageBoxControlViewModel.cs" />
+    <Compile Include="ViewModel\MessageBoxForFactorsViewModel.cs" />
+    <Compile Include="ViewModel\WorkersCompClassCodeQueryViewModel.cs" />
+    <Compile Include="ViewModel\WorkersCompClassCodeViewModel.cs" />
+    <Compile Include="ViewModel\SynchronizationViewModel.cs" />
+    <Compile Include="ViewModel\DiscreteProgressBarViewModel.cs" />
+    <Compile Include="ViewModel\MarqueeProgressBarViewModel.cs" />
+    <Compile Include="ViewModel\UmbrellaTypeAllocatorViewModel.cs" />
+    <Compile Include="ViewModel\UmbrellaLimitsProfileWizardViewModel.cs" />
+    <Compile Include="ViewModel\UnderwriterSelectorViewModel.cs" />
+    <Compile Include="View\Converters\AnimationConverter.cs" />
+    <Compile Include="View\Converters\FontBoldConverter.cs" />
+    <Compile Include="View\Converters\SynchronizationIconConverter.cs" />
+    <Compile Include="View\Enums\FormSizeHeight.cs" />
+    <Compile Include="View\Enums\FormSizeWidth.cs" />
+    <Compile Include="View\Forms\HistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\HistoryForm.Designer.cs">
+      <DependentUpon>HistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\MessageBoxForFactorsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\MessageBoxForFactorsForm.Designer.cs">
+      <DependentUpon>MessageBoxForFactorsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\UmbrellaTypeAllocationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\UmbrellaTypeAllocationForm.Designer.cs">
+      <DependentUpon>UmbrellaTypeAllocationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\WorkersCompClassCodeSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\WorkersCompClassCodeSearchForm.Designer.cs">
+      <DependentUpon>WorkersCompClassCodeSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\WorkersCompClassCodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\WorkersCompClassCodeForm.Designer.cs">
+      <DependentUpon>WorkersCompClassCodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\HistoryDisplayer.xaml.cs">
+      <DependentUpon>HistoryDisplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MessageBoxForFactors.xaml.cs">
+      <DependentUpon>MessageBoxForFactors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SynchronizationPreviewer.xaml.cs">
+      <DependentUpon>SynchronizationPreviewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DiscreteProgressBar.xaml.cs">
+      <DependentUpon>DiscreteProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\CedentSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\CedentSelectorForm.Designer.cs">
+      <DependentUpon>CedentSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\SynchronizationPreviewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\SynchronizationPreviewerForm.Designer.cs">
+      <DependentUpon>SynchronizationPreviewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\DiscreteProgressBarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\DiscreteProgressBarForm.Designer.cs">
+      <DependentUpon>DiscreteProgressBarForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\IsDirtyFlagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\IsDirtyFlagsForm.Designer.cs">
+      <DependentUpon>IsDirtyFlagsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\MarqueeProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\MarqueeProgressForm.Designer.cs">
+      <DependentUpon>MarqueeProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\SublineWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\SublineWizardForm.Designer.cs">
+      <DependentUpon>SublineWizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\UmbrellaTypePolicyProfileWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\UmbrellaTypePolicyProfileWizardForm.Designer.cs">
+      <DependentUpon>UmbrellaTypePolicyProfileWizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\UnderwriterSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\UnderwriterSelectorForm.Designer.cs">
+      <DependentUpon>UnderwriterSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\UserPreferencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\UserPreferencesForm.Designer.cs">
+      <DependentUpon>UserPreferencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataComponents\BaseExcelMatrix.cs" />
+    <Compile Include="Models\ExcelComponentIdentifier.cs" />
+    <Compile Include="Models\Historicals\AggregateLossSet.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\AggregateLossSetExcelMatrix.cs" />
+    <Compile Include="Models\Historicals\ExposureSet.cs" />
+    <Compile Include="Models\Historicals\IHistorical.cs" />
+    <Compile Include="Models\Package\DataComponents\BasePackageExcelMatrix.cs" />
+    <Compile Include="Models\Package\DataComponents\PackageExcelComponentIdentifier.cs" />
+    <Compile Include="Models\Package\DataComponents\UnderwritingYearExcelMatrix.cs" />
+    <Compile Include="Models\Package\IPackage.cs" />
+    <Compile Include="Models\Package\PackageWorksheetValidator.cs" />
+    <Compile Include="Models\Profiles\HazardProfile.cs" />
+    <Compile Include="Models\Profiles\IProfile.cs" />
+    <Compile Include="Models\Profiles\PolicyProfile.cs" />
+    <Compile Include="Models\Profiles\StateProfile.cs" />
+    <Compile Include="Models\Segment\DataComponents\BaseSegmentExcelMatrix.cs" />
+    <Compile Include="Models\Segment\DataComponents\ISegmentExcelMatrix.cs" />
+    <Compile Include="Models\Segment\DataComponents\ProspectiveExposureAmountExcelMatrix.cs" />
+    <Compile Include="Models\Segment\DataComponents\SegmentExcelComponentIdentifier.cs" />
+    <Compile Include="Models\Segment\SegmentWorksheetValidator.cs" />
+    <Compile Include="ExcelUtilities\RangeSizeModifier\PolicyProfileRowInserter.cs" />
+    <Compile Include="UserPreferences.cs" />
+    <Compile Include="ViewModel\Design\DesignSublineSelectorWizardViewModel.cs" />
+    <Compile Include="ViewModel\UserPreferencesViewModel.cs" />
+    <Compile Include="View\CedentSelector.xaml.cs">
+      <DependentUpon>CedentSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\CedentSelectorViewModel.cs" />
+    <Compile Include="ExcelEventSetters\StatusBarUpdater.cs" />
+    <Compile Include="ExcelUtilities\StateSort\StateSorterBasedOnCodeWithCwOnTop.cs" />
+    <Compile Include="ExcelUtilities\StateSort\IStateSorter.cs" />
+    <Compile Include="ExcelUtilities\StateSort\StateSorterBasedOnCode.cs" />
+    <Compile Include="ExcelUtilities\StateSort\StateSorterBasedOnNameWithCwOnTop.cs" />
+    <Compile Include="ExcelUtilities\StateSort\StateSorterBasedOnName.cs" />
+    <Compile Include="View\Forms\MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\MessageYesNoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\MessageYesNoForm.Designer.cs">
+      <DependentUpon>MessageYesNoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\PolicyProfileDimensionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\PolicyProfileDimensionsForm.Designer.cs">
+      <DependentUpon>PolicyProfileDimensionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataComponents\SingleOccurrenceSegmentExcelMatrix.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\ExposureSetExcelMatrix.cs" />
+    <Compile Include="Models\Historicals\ExcelComponent\PeriodSetExcelMatrix.cs" />
+    <Compile Include="Models\DataComponents\IExcelMatrix.cs" />
+    <Compile Include="ViewModel\ItemSources\HistoricalPeriodTypeSource.cs" />
+    <Compile Include="Models\Segment\WorksheetManager.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\HazardExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\PolicyExcelMatrix.cs" />
+    <Compile Include="Models\Profiles\ExcelComponent\StateExcelMatrix.cs" />
+    <Compile Include="Models\Segment\ISegment.cs" />
+    <Compile Include="Models\Segment\Segment.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\MiscellaneousSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\PublicOfficersErrorAndOmissionsSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\SchoolBoardLegalSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\EmploymentPracticesSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\DirectorsAndOfficersSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\AttorneysSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\NursingHomesSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\HospitalsSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\SurgeonsSubline.cs" />
+    <Compile Include="Models\Subline\ProfessionalLiability\PhysiciansSubline.cs" />
+    <Compile Include="Models\Subline\GeneralLiability\HomeownersLiabilitySubline.cs" />
+    <Compile Include="Models\Subline\GeneralLiability\PublicEntitySubline.cs" />
+    <Compile Include="Models\Subline\AutoLiability\PublicEntitySubline.cs" />
+    <Compile Include="Models\Subline\AutoLiability\CommercialSubline.cs" />
+    <Compile Include="Models\Subline\AutoLiability\PersonalSubline.cs" />
+    <Compile Include="Models\Subline\BaseSubline.cs" />
+    <Compile Include="Models\Subline\GeneralLiability\PremOpsSubline.cs" />
+    <Compile Include="Models\Subline\GeneralLiability\ProductsSubline.cs" />
+    <Compile Include="Models\Subline\ISubline.cs" />
+    <Compile Include="Sheet21.cs">
+      <DependentUpon>SubmissionCollector.xltx</DependentUpon>
+    </Compile>
+    <Compile Include="Sheet21.Designer.cs">
+      <DependentUpon>Sheet21.Designer.xml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\SublineWizardViewModel.cs" />
+    <Compile Include="View\Converters\EnumBooleanConverter.cs" />
+    <Compile Include="View\ObservableCollectionExtensions.cs" />
+    <Compile Include="Models\IInventoryItem.cs" />
+    <Compile Include="View\Converters\InventoryTreeConverters.cs" />
+    <Compile Include="View\IsDirtyFlagDisplay.xaml.cs">
+      <DependentUpon>IsDirtyFlagDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SublineWizard.xaml.cs">
+      <DependentUpon>SublineWizard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MessageBoxControl.xaml.cs">
+      <DependentUpon>MessageBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ItemSources\CurrencySource.cs" />
+    <Compile Include="ViewModel\ItemSources\ExposureBasisSource.cs" />
+    <Compile Include="ViewModel\ItemSources\PolicyLimitsApplyToSource.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\BaseModelProxy.cs" />
+    <Compile Include="Models\Package\Package.cs" />
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="ExcelUtilities\RangeTransposer\RangeTransposer.cs" />
+    <Compile Include="ExcelUtilities\Extensions\FormatExtensions.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="Sheet1.cs">
+      <DependentUpon>SubmissionCollector.xltx</DependentUpon>
+    </Compile>
+    <Compile Include="Sheet1.Designer.cs">
+      <DependentUpon>Sheet1.Designer.xml</DependentUpon>
+    </Compile>
+    <Compile Include="SubmissionRibbon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubmissionRibbon.Designer.cs">
+      <DependentUpon>SubmissionRibbon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThisWorkbook.cs">
+      <DependentUpon>SubmissionCollector.xltx</DependentUpon>
+    </Compile>
+    <Compile Include="ThisWorkbook.Designer.cs">
+      <DependentUpon>ThisWorkbook.Designer.xml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MarqueeProgressBar.xaml.cs">
+      <DependentUpon>MarqueeProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UmbrellaTypePolicyProfileWizard.xaml.cs">
+      <DependentUpon>UmbrellaTypePolicyProfileWizard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UmbrellaTypeAllocator.xaml.cs">
+      <DependentUpon>UmbrellaTypeAllocator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UnderwriterSelector.xaml.cs">
+      <DependentUpon>UnderwriterSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\MessageHelper.cs" />
+    <Compile Include="ViewModel\InventoryTreeViewModel.cs" />
+    <Compile Include="View\Editors\CedentEditor.xaml.cs">
+      <DependentUpon>CedentEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Editors\DateTimePickerEditor.cs" />
+    <Compile Include="View\Converters\VisibilityConverter.cs" />
+    <Compile Include="View\InventoryPane.xaml.cs">
+      <DependentUpon>InventoryPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InventoryTree.xaml.cs">
+      <DependentUpon>InventoryTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InventoryPropertyGrid.xaml.cs">
+      <DependentUpon>InventoryPropertyGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PolicyProfileDimensionAlternatives.xaml.cs">
+      <DependentUpon>PolicyProfileDimensionAlternatives.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MessageBoxYesNo.xaml.cs">
+      <DependentUpon>MessageBoxYesNo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Enums\FormResponse.cs" />
+    <Compile Include="View\Editors\UnderwriterEditor.xaml.cs">
+      <DependentUpon>UnderwriterEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorkerCompClassCodeReferenceSearchDisplayer.xaml.cs">
+      <DependentUpon>WorkerCompClassCodeReferenceSearchDisplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserPreferencesDisplayer.xaml.cs">
+      <DependentUpon>UserPreferencesDisplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorkerCompClassCodeReferenceDisplayer.xaml.cs">
+      <DependentUpon>WorkerCompClassCodeReferenceDisplayer.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ActionPanes\InventoryActionPane.resx">
+      <DependentUpon>InventoryActionPane.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\MessageYesNoForm.resx">
+      <DependentUpon>MessageYesNoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\PolicyProfileDimensionsForm.resx">
+      <DependentUpon>PolicyProfileDimensionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\SublineWizardForm.resx">
+      <DependentUpon>SublineWizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\UmbrellaTypeAllocationForm.resx">
+      <DependentUpon>UmbrellaTypeAllocationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\UmbrellaTypePolicyProfileWizardForm.resx">
+      <DependentUpon>UmbrellaTypePolicyProfileWizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\UserPreferencesForm.resx">
+      <DependentUpon>UserPreferencesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sheet1.resx">
+      <DependentUpon>Sheet1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sheet21.resx">
+      <DependentUpon>Sheet21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubmissionRibbon.resx">
+      <DependentUpon>SubmissionRibbon.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\WorkersCompClassCodeSearchForm.resx">
+      <DependentUpon>WorkersCompClassCodeSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\WorkersCompClassCodeForm.resx">
+      <DependentUpon>WorkersCompClassCodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+      <TransformOnBuild>true</TransformOnBuild>
+    </None>
+    <None Include="App.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.QA.config">
+      <DependentUpon>App.config</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
+    </None>
+    <None Include="Certificate\MRG CodeSigning BURS.p12" />
+    <None Include="Certificate\MRG CodeSigning BURS_certificate.pem" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="SubmissionCollector.xltx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ThisWorkbook.Designer.xml">
+      <DependentUpon>ThisWorkbook.cs</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sheet1.Designer.xml">
+      <DependentUpon>Sheet1.cs</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\CedentSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HistoryDisplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MessageBoxForFactors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SynchronizationPreviewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DiscreteProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\IsDirtyFlagDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SublineWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MessageBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MarqueeProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UmbrellaTypePolicyProfileWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UmbrellaTypeAllocator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UnderwriterSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Editors\CedentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InventoryPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InventoryTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InventoryPropertyGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PolicyProfileDimensionAlternatives.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MessageBoxYesNo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Editors\UnderwriterEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorkerCompClassCodeReferenceSearchDisplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserPreferencesDisplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorkerCompClassCodeReferenceDisplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Icons\Add.png" />
+    <Resource Include="View\Icons\WC.png" />
+    <Content Include="View\Icons\AddColumn.png" />
+    <Content Include="View\Icons\AddRow.png" />
+    <Content Include="View\Icons\AngryBird.png" />
+    <Resource Include="View\Icons\AnimatedCircle.gif" />
+    <Resource Include="View\Icons\AnimatedEllipse.gif" />
+    <Content Include="View\Icons\Arrange.png" />
+    <Content Include="View\Icons\Book.png" />
+    <Content Include="View\Icons\Briefcase.png" />
+    <Content Include="View\Icons\BulletedList.png" />
+    <Content Include="View\Icons\Bus.png" />
+    <Content Include="View\Icons\Calendar.png" />
+    <Content Include="View\Icons\Capitol.png" />
+    <Content Include="View\Icons\Car.png" />
+    <Content Include="View\Icons\CarApd.png" />
+    <Content Include="View\Icons\Change.png" />
+    <Content Include="View\Icons\CheckFile.png" />
+    <Content Include="View\Icons\CircledV.png" />
+    <Resource Include="View\Icons\CloudChecked.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\Icons\CloudRed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="View\Icons\Clone.png" />
+    <Content Include="View\Icons\Construction.png" />
+    <Content Include="View\Icons\Copy.png" />
+    <Resource Include="View\Icons\DataInTable.png" />
+    <Content Include="View\Icons\DatabaseView.png" />
+    <Content Include="View\Icons\DeleteColumn.png" />
+    <Content Include="View\Icons\DeleteRow.png" />
+    <Content Include="View\Icons\DeleteTableRow.png" />
+    <Resource Include="View\Icons\DeleteX.png" />
+    <Content Include="View\Icons\DevTools.png" />
+    <Resource Include="View\Icons\Divide.png" />
+    <Content Include="View\Icons\Doctor.png" />
+    <Resource Include="View\Icons\Document.png" />
+    <Content Include="View\Icons\Dollar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Sheet21.Designer.xml">
+      <DependentUpon>Sheet21.cs</DependentUpon>
+    </None>
+    <Resource Include="View\Icons\ZoomIn.png" />
+    <Resource Include="View\Icons\ZoomOut.png" />
+    <Resource Include="View\Icons\DownArrow.png" />
+    <Content Include="View\Icons\ElderlyPerson.png" />
+    <Content Include="View\Icons\ExcelSheet.png" />
+    <Content Include="View\Icons\Factory.png" />
+    <Content Include="View\Icons\Folder.png" />
+    <Content Include="View\Icons\Gear.png" />
+    <Content Include="View\Icons\Glasses.png" />
+    <Content Include="View\Icons\Hospital.png" />
+    <Content Include="View\Icons\House.png" />
+    <Resource Include="View\Icons\Information.png" />
+    <Content Include="View\Icons\HouseBlue.png" />
+    <Content Include="View\Icons\InsertTableRow.png" />
+    <Content Include="View\Icons\Json.png" />
+    <Content Include="View\Icons\Ladder.png" />
+    <Resource Include="View\Icons\LeftArrow.png" />
+    <Resource Include="View\Icons\Lock.png" />
+    <Resource Include="View\Icons\Merge.png" />
+    <Content Include="View\Icons\Map.png" />
+    <Content Include="View\Icons\Misc.png" />
+    <Resource Include="View\Icons\New.png" />
+    <Content Include="View\Icons\Navigation.png" />
+    <Content Include="View\Icons\Next.png" />
+    <Content Include="View\Icons\NursingHome.png" />
+    <Content Include="View\Icons\Official.png" />
+    <Content Include="View\Icons\PaintBrush.png" />
+    <Content Include="View\Icons\Pane.png" />
+    <Content Include="View\Icons\Parchment.png" />
+    <Content Include="View\Icons\Paycheque.png" />
+    <Content Include="View\Icons\Pencil.png" />
+    <Content Include="View\Icons\ProgressBar.png" />
+    <Resource Include="View\Icons\QuestionMarkBlue.png" />
+    <Content Include="View\Icons\Puzzle.png" />
+    <Content Include="View\Icons\RedPen.png" />
+    <Content Include="View\Icons\Reload.png" />
+    <Content Include="View\Icons\Rename.png" />
+    <Content Include="View\Icons\Renew.png" />
+    <Content Include="View\Icons\Replace.png" />
+    <Content Include="View\Icons\Reset.png" />
+    <Content Include="View\Icons\Restore.png" />
+    <Resource Include="View\Icons\RightArrow.png" />
+    <Content Include="View\Icons\School.png" />
+    <Content Include="View\Icons\ScienceScales.png" />
+    <Resource Include="View\Icons\Triangle.png" />
+    <Resource Include="View\Icons\TriangleFlip.png" />
+    <Content Include="View\Icons\Sort.png" />
+    <Resource Include="View\Icons\Umbrella.png" />
+    <Content Include="View\Icons\SortAscending.png" />
+    <Content Include="View\Icons\SplitFiles.png" />
+    <Content Include="View\Icons\Spreadsheet.png" />
+    <Content Include="View\Icons\StartingFlag.png" />
+    <Resource Include="View\Icons\Stop.png" />
+    <Resource Include="View\Icons\Trash.png" />
+    <Resource Include="View\Icons\ThumbsUp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\Icons\Success.png" />
+    <Content Include="View\Icons\TruckApd.png" />
+    <Content Include="View\Icons\Upload.png" />
+    <Content Include="View\Icons\Url.png" />
+    <Content Include="View\Icons\Wand.png" />
+    <Resource Include="View\Icons\Warning.png" />
+    <Content Include="View\Icons\WatchYourStep.png" />
+    <Content Include="View\Icons\WheelBed.png" />
+    <Content Include="View\Icons\WorksheetToolbox.png" />
+    <Content Include="View\Icons\Xml.png" />
+    <Resource Include="View\Icons\Search.png" />
+    <Resource Include="View\Icons\Select.png" />
+    <Content Include="View\Icons\Suit.png" />
+    <Content Include="View\Icons\Surgeon.png" />
+    <Content Include="View\Icons\TextFile.png" />
+    <Content Include="View\Icons\Truck.png" />
+    <Resource Include="View\Icons\UpArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PionlearClient\PionlearClient.csproj">
+      <Project>{c7d253d2-3c33-4143-8ac6-3e50e602304e}</Project>
+      <Name>PionlearClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Historicals\ExcelComponent\Helpers\" />
+    <Folder Include="Models\ItemSources\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Certificate\MRG CodeSigning BURS.p12</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>E5548CE24C39C15C3F518922D88AF2F8961FC63A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\QA\</OutputPath>
+    <DefineConstants>VSTO40;DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="SubmissionCollector.xltx" HostPackage="{3F2B7691-D1D1-402F-9370-2704A737CF60}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="XLT" Language="CS" TemplatesPath="VSTOTemplates" DebugInfoExeName="C:\Program Files\Microsoft Office\root\Office16\excel.exe" DebugInfoCommandLine="/t /x &quot;[$OUTPUT]SubmissionCollector.xltx&quot;" />
+        <Host Name="Excel Document" Path=".\SubmissionCollector.xltx" GeneratedCodeNamespace="SubmissionCollector" PublishedHash="1F6A9802E7794EE200BFD34D08E4DBE3BF4B886B">
+          <HostItem Name="Sheet1" Code="Sheet1.cs" CanonicalName="Sheet1" PublishedHash="883920C9785BA5EBC161BD9D6913D1362F026E8A" DisplayName="Package" Blueprint="Sheet1.Designer.xml" GeneratedCode="Sheet1.Designer.cs" />
+          <HostItem Name="Sheet21" Code="Sheet21.cs" CanonicalName="Sheet21" PublishedHash="D0FF05E42DC256221A5D7FA43A21A0E3AB8A68D7" CanActivate="false" DisplayName="SegmentTemplate" Blueprint="Sheet21.Designer.xml" GeneratedCode="Sheet21.Designer.cs" />
+          <HostItem Name="ThisWorkbook" Code="ThisWorkbook.cs" CanonicalName="ThisWorkbook" PublishedHash="687C16F2670015E98A8591733914417FA80E61D4" Blueprint="ThisWorkbook.Designer.xml" GeneratedCode="ThisWorkbook.Designer.cs" />
+        </Host>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!--
+    To modify your build process, add your task inside one of the targets below and uncomment it.
+    Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

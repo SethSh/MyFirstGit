@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="SubmissionCollector.View.DiscreteProgressBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:design="clr-namespace:SubmissionCollector.ViewModel.Design"
+             mc:Ignorable="d" 
+             d:DataContext ="{d:DesignInstance {x:Type design:DesignDiscreteProgressBarViewModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="200" d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <!-- This style is used for buttons, to remove the WPF default 'animated' mouse over effect -->
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Name="ProgressBarRow" Height="60"/>
+            <RowDefinition Name="MessageRow"/>
+            <RowDefinition Name="ButtonsRow" Height="{Binding Path=ButtonsRowPixels}"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <ProgressBar Foreground="DodgerBlue"  Margin="15, 15, 15, 15" IsIndeterminate="False" Value="{Binding Path=DoneAmount}" Minimum="0" Maximum="100"/>
+        </DockPanel>
+
+        <DockPanel Grid.Row="1">
+            <ScrollViewer>
+                <TextBlock x:Name ="MyTextBlock"  TextWrapping="Wrap" FontSize="14" Text="{Binding Path = Message}" Margin ="15, 5, 5, 5" />
+            </ScrollViewer>
+        </DockPanel>
+
+        <DockPanel Grid.Row="2" >
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="CloseButton" Content="Close"  Height="25" Margin ="5"  Width="75" />
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,330 @@
+﻿<UserControl x:Class="SubmissionCollector.View.UmbrellaTypePolicyProfileWizard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dvm="clr-namespace:SubmissionCollector.ViewModel.Design"
+             xmlns:converters="clr-namespace:SubmissionCollector.View.Converters"
+             xmlns:subline="clr-namespace:SubmissionCollector.Models.Subline"
+             xmlns:viewModel="clr-namespace:SubmissionCollector.ViewModel"
+             xmlns:clientApi="clr-namespace:MunichRe.Bex.ApiClient.ClientApi;assembly=MunichRe.Bex.ApiClient"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:DesignUmbrellaPolicyProfileWizardViewModel},  IsDesignTimeCreatable=True}"
+             d:DesignHeight="550" d:DesignWidth="1500">
+    <UserControl.Resources>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="Margin" Value="10,0,10,0"></Setter>
+            <Setter Property="Height" Value="Auto"></Setter>
+            <Setter Property="Width" Value="Auto"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background" Value="#5B9BD5"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+        </Style>
+        
+        <Style x:Key="UmbrellaTypesLabelTemplate" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
+            <Setter Property="Content" Value="Umbrella Types"></Setter>
+            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+        </Style>
+        
+        <Style x:Key="MyButtonOnLabelTemplate" TargetType="Label">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <Style x:Key="NewButtonTemplate" TargetType="Label" BasedOn="{StaticResource MyButtonOnLabelTemplate}">
+            <Setter Property="ToolTip" Value="Data component has been created since opening the subline wizard"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/New.png"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="HasDataButtonTemplate" TargetType="Label" BasedOn="{StaticResource MyButtonOnLabelTemplate}">
+            <Setter Property="ToolTip" Value="Data component contains excel sumRange content"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/DataInTable.png"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SublineListBoxTemplate" TargetType="ListBox">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="10,0,10,10"></Setter>
+            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="SelectionMode" Value="Single"></Setter>
+            <Setter Property="AllowDrop" Value="True"></Setter>
+            <Setter Property="Background" Value="#E3E3E3"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="subline:ISubline">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source= "{Binding Path=ImageSource}" Height="16" Margin="0, 0, 10,0"/>
+                            <TextBlock Text="{Binding Path=ShortNameWithLob}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="UmbrellaListBoxTemplate" TargetType="ListBox" >
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="SelectionMode" Value="Single"></Setter>
+            <Setter Property="AllowDrop" Value="True"></Setter>
+            <Setter Property="Background" Value="#E3E3E3"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="clientApi:UmbrellaTypeViewModel">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=UmbrellaTypeCode}" Margin="0,0,5,0" Width="0"/>
+                            <TextBlock Text="{Binding Path=UmbrellaTypeName}" Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GeneralButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5,5,0,5"/>
+            <Setter Property="Opacity" Value="95"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" 
+                                BorderThickness="1"
+                                Padding="4,2" 
+                                BorderBrush="DarkGray" 
+                                CornerRadius="3" 
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="MoveLeftButtonStyle" TargetType="Button" BasedOn="{StaticResource GeneralButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/LeftArrow.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Shift policy profile to the left"></Setter>
+            <EventSetter Event="Click" Handler="MoveLeft"></EventSetter>
+        </Style>
+
+        <Style x:Key="DivideButtonStyle" TargetType="Button" BasedOn="{StaticResource GeneralButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/Divide.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+            <EventSetter Event="Click" Handler="DivideButton_OnClick" />
+        </Style>
+
+        <Style x:Key="MergeButtonStyle" TargetType="Button" BasedOn="{StaticResource GeneralButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/Merge.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+            <EventSetter Event="Click" Handler="MergeButton_OnClick" />
+            <EventSetter Event="MouseEnter" Handler="MergeButton_MouseEnter"/>
+            <EventSetter Event="MouseLeave" Handler="MergeButton_MouseLeave"></EventSetter>
+        </Style>
+
+        <Style x:Key="MoveRightButtonStyle" TargetType="Button" BasedOn="{StaticResource GeneralButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/SubmissionCollector;component/View/Icons/RightArrow.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Shift policy profile to the right"></Setter>
+            <EventSetter Event="Click" Handler="MoveRight"></EventSetter>
+        </Style>
+
+        <DataTemplate x:Key="ComponentDataTemplate" DataType="{x:Type viewModel:UmbrellaComponentView}" >
+            <Border Margin="5"
+                    BorderThickness="{Binding Path=BorderThickness}"
+                    BorderBrush="Black">
+
+                <DockPanel Name="ComponentDataDockPanel" 
+                           Visibility="{Binding Path=IsVisible, Converter={StaticResource VisibilityConverter}}"
+                           Margin="0,0,0,0"
+                           LastChildFill="True">
+
+                    <DockPanel DockPanel.Dock="Top" Background="#5B9BD5" LastChildFill="True">
+                        <Label Style="{StaticResource NewButtonTemplate}" DockPanel.Dock="Right"
+                               Visibility="{Binding Path=IsNew, Converter={StaticResource VisibilityConverter}}"/>
+
+                        <Label Style="{StaticResource HasDataButtonTemplate}" DockPanel.Dock="Right"
+                               Visibility="{Binding Path=HasData, Converter={StaticResource VisibilityConverter}}"/>
+
+                        <Label DockPanel.Dock="Left"
+                               Style="{StaticResource LabelStyle}"
+                               Margin="0"
+                               BorderThickness="0"
+                               Content="{Binding Path=Name}"/>
+                    </DockPanel>
+
+                    <DockPanel Margin="10" LastChildFill="True" DockPanel.Dock="Top">
+
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+
+                            <StackPanel Orientation="Vertical" >
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="0, 0, 5, 0">
+                                        <Button Style="{StaticResource DivideButtonStyle}"
+                                                IsEnabled="{Binding Path=IsDivideButtonEnabled}"
+                                                Visibility="{Binding Path=IsDivideButtonVisible, Converter={StaticResource VisibilityConverter}}"
+                                                ToolTip="{Binding Path=DivideToolTip}" />
+
+                                        <Button Style="{StaticResource MergeButtonStyle}"
+                                                IsEnabled="{Binding Path=IsMergeButtonEnabled}"
+                                                Visibility="{Binding Path=IsMergeButtonVisible, Converter={StaticResource VisibilityConverter}}"
+                                                ToolTip="{Binding Path=MergeToolTip}" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0">
+                                        <Button Style="{StaticResource MoveLeftButtonStyle}"
+                                                Visibility="{Binding Path=IsMoveLeftButtonVisible, Converter={StaticResource VisibilityConverter}}" />
+
+                                        <Button Style="{StaticResource MoveRightButtonStyle}"
+                                                Visibility="{Binding Path=IsMoveRightButtonVisible, Converter={StaticResource VisibilityConverter}}" />
+                                    </StackPanel>
+                                    
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </DockPanel>
+
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <DockPanel >
+                                <Label Background="Transparent"
+                                       Foreground="Black"
+                                       Style="{StaticResource UmbrellaTypesLabelTemplate}"/>
+
+                                <ListBox x:Name="UmbrellaSetListBox"
+                                         Style="{StaticResource UmbrellaListBoxTemplate}"
+                                         ItemsSource="{Binding Path=UmbrellaTypes}"
+                                         Height="80"
+                                         Margin="10,0,10,0">
+                                </ListBox>
+
+                            </DockPanel>
+                        </DockPanel>
+
+                        <Label DockPanel.Dock="Top"
+                               Style="{StaticResource LabelStyle}"
+                               Background="Transparent"
+                               Foreground="Black"
+                               Content="Sublines"/>
+
+                        <ListBox Style="{StaticResource SublineListBoxTemplate}"
+                                 ItemsSource="{Binding Path=Sublines}"/>
+
+                    </DockPanel>
+
+                </DockPanel>
+
+            </Border>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModel:UmbrellaTypePolicyProfileWizardViewModel}"/>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition x:Name="PolicyProfile2Column" Width="1*"/>
+            <ColumnDefinition x:Name="PolicyProfile3Column" Width="1*"/>
+            <ColumnDefinition x:Name="PolicyProfile4Column" Width="1*"/>
+            <ColumnDefinition x:Name="PolicyProfile5Column" Width="1*"/>
+            <ColumnDefinition x:Name="PolicyProfile6Column" Width="1*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+
+        <Label x:Name="OverallLabel" Grid.Column="1" Grid.ColumnSpan="6"
+               Style="{StaticResource LabelStyle}"
+               Margin="0"
+               HorizontalContentAlignment="Center"
+               Content="{Binding Path = Title}" 
+               FontWeight="Bold"
+               Background="Transparent"
+               BorderThickness="2"
+               Foreground="Black"
+               VerticalAlignment="Top" />
+
+        <ContentPresenter Content="{Binding Path=Component1}"
+                          ContentTemplate="{StaticResource ComponentDataTemplate}"
+                          Grid.Row="1" Grid.Column="{Binding Path=ColumnIndex}" />
+        
+        <ContentPresenter Content="{Binding Path=Component2}"
+                          ContentTemplate="{StaticResource ComponentDataTemplate}"
+                          Grid.Row="1" Grid.Column="{Binding Path=ColumnIndex}" />
+
+        <ContentPresenter Content="{Binding Path=Component3}"
+                          ContentTemplate="{StaticResource ComponentDataTemplate}"
+                          Grid.Row="1" Grid.Column="{Binding Path=ColumnIndex}" />
+
+        <ContentPresenter Content="{Binding Path=Component4}"
+                          ContentTemplate="{StaticResource ComponentDataTemplate}"
+                          Grid.Row="1" Grid.Column="{Binding Path=ColumnIndex}" />
+
+        <ContentPresenter Content="{Binding Path=Component5}"
+                          ContentTemplate="{StaticResource ComponentDataTemplate}"
+                          Grid.Row="1" Grid.Column="{Binding Path=ColumnIndex}" />
+
+        <ContentPresenter Content="{Binding Path=Component6}"
+                          ContentTemplate="{StaticResource ComponentDataTemplate}"
+                          Grid.Row="1" Grid.Column="{Binding Path=ColumnIndex}" />
+
+        
+        <DockPanel  Grid.Row="2" Grid.Column="1" Margin="5" Grid.ColumnSpan="7">
+            <Button x:Name="CancelButton" Content="Cancel"  Height="25" Margin ="5" Width="75" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="CancelButton_OnClick"/>
+            <Button x:Name="OkButton" Content="Ok"  Height="25" Margin ="5" Width="75" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="OkButton_OnClick"/>
+        </DockPanel>
+
+    </Grid>
+</UserControl>
+

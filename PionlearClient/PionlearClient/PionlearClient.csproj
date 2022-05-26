@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7D253D2-3C33-4143-8AC6-3E50E602304E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PionlearClient</RootNamespace>
+    <AssemblyName>PionlearClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\UAT\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\QA\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.JsonWebTokens.6.8.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Logging.6.8.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Tokens.6.8.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.2.3.22\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.4.1\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.4.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MunichRe.Bex.ApiClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MunichRe.Bex.ApiClient.1.0.1\lib\net472\MunichRe.Bex.ApiClient.dll</HintPath>
+    </Reference>
+    <Reference Include="MunichRe.KeyData.ApiWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MunichRe.KeyData.ApiWrapper.1.0.3\lib\net472\MunichRe.KeyData.ApiWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IdentityModel.Tokens.Jwt.6.8.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BexReferenceData\BaseReferenceDataFromBex.cs" />
+    <Compile Include="BexReferenceData\BexFileNames.cs" />
+    <Compile Include="BexReferenceData\WorkersCompClassCodesAndHazardsFromBex.cs" />
+    <Compile Include="BexReferenceData\ProtectionClassCodesFromBex.cs" />
+    <Compile Include="BexReferenceData\ConstructionTypeCodesFromBex.cs" />
+    <Compile Include="BexReferenceData\ExposureBasisFromBex.cs" />
+    <Compile Include="BexReferenceData\BexCompatibility.cs" />
+    <Compile Include="BexReferenceData\HazardCodesFromBex.cs" />
+    <Compile Include="BexReferenceData\HistoricalPeriodTypesFromBex.cs" />
+    <Compile Include="BexReferenceData\OccupancyTypeCodesFromBex.cs" />
+    <Compile Include="BexReferenceData\ProfileBasisFromBex.cs" />
+    <Compile Include="BexReferenceData\MinnesotaRetentionsFromBex.cs" />
+    <Compile Include="BexReferenceData\SublineCodesFromBex.cs" />
+    <Compile Include="BexReferenceData\SubjectPolicyAlaeTreatmentsFromBex.cs" />
+    <Compile Include="BexReferenceData\StateCodesFromBex.cs" />
+    <Compile Include="BexReferenceData\UmbrellaTypesFromBex.cs" />
+    <Compile Include="CollectorClientPlus\AggregateLossModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\AggregateLossSetModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\ConstructionTypeDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\ConstructionTypeDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\HazardDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\IdExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\WorkersCompStateClassCodeDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\WorkersCompStateHazardGroupDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\WorkersCompStateAttachmentDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\OccupancyTypeDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\PolicyDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\ProtectionClassDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\RateChangeSetModelExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\StateDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\SubmissionPackageModelExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\SubmissionSegmentModelExtensions.cs" />
+    <Compile Include="CollectorClientPlus\Extensions\TotalInsuredValueDistributionExtensions.cs" />
+    <Compile Include="CollectorClientPlus\ProtectionClassDistributionModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\OccupancyTypeDistributionModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\ExposureModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\ExposureSetModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\HazardDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\IndividualLossSetModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\IndividualLossModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\IProvidesLocation.cs" />
+    <Compile Include="CollectorClientPlus\PolicyDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\RateChangeModelPlus.cs" />
+    <Compile Include="CollectorClientPlus\StateDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\WorkersCompClassCodeDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\WorkersCompStateHazardDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\WorkersCompStateAttachmentDistributionItemPlus.cs" />
+    <Compile Include="CollectorClientPlus\TotalInsuredValueDistributionItemPlus.cs" />
+    <Compile Include="ComparisonExtensions.cs" />
+    <Compile Include="BexConstants.cs" />
+    <Compile Include="DateExtensions.cs" />
+    <Compile Include="Exceptions\NoPackageException.cs" />
+    <Compile Include="Extensions\MiscExtensions.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="KeyDataFolder\KeyDataApiWrapperClientFacade.cs" />
+    <Compile Include="KeyDataFolder\KeyDataConfiguration.cs" />
+    <Compile Include="KeyDataFolder\UnderwriterFinder.cs" />
+    <Compile Include="KeyDataFolder\UnderwritersFromKeyData.cs" />
+    <Compile Include="KeyDataFolder\BusinessPartner.cs" />
+    <Compile Include="KeyDataFolder\CurrenciesFromKeyData.cs" />
+    <Compile Include="KeyDataFolder\KeyDataConverter.cs" />
+    <Compile Include="KeyDataFolder\Underwriter.cs" />
+    <Compile Include="Model\AggregateLossSetModel.cs" />
+    <Compile Include="Enums\EnumCamelCaseConverter.cs" />
+    <Compile Include="Model\BaseSourceComponentModel.cs" />
+    <Compile Include="Model\ConstructionTypeModel.cs" />
+    <Compile Include="Model\HazardModel.cs" />
+    <Compile Include="Model\ExposureSetModel.cs" />
+    <Compile Include="Model\IModel.cs" />
+    <Compile Include="Model\IndividualLossSetModel.cs" />
+    <Compile Include="Model\MinnesotaRetentionModel.cs" />
+    <Compile Include="Model\WorkersCompClassCodeModel.cs" />
+    <Compile Include="Model\WorkersCompStateHazardGroupModel.cs" />
+    <Compile Include="Model\WorkersCompStateAttachmentModel.cs" />
+    <Compile Include="Model\TotalInsuredValueModel.cs" />
+    <Compile Include="Model\ProtectionClassModel.cs" />
+    <Compile Include="Model\OccupancyTypeModel.cs" />
+    <Compile Include="Model\PackageModel.cs" />
+    <Compile Include="Model\PolicyModel.cs" />
+    <Compile Include="Model\RateChangeSetModel.cs" />
+    <Compile Include="Model\SegmentModel.cs" />
+    <Compile Include="Model\StateModel.cs" />
+    <Compile Include="NumericalConstants.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenAuthentication\BexCollectorClientFactory.cs" />
+    <Compile Include="TokenAuthentication\MunichReTokenServiceClientCredentials.cs" />
+    <Compile Include="TokenAuthentication\KeyDataApiFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

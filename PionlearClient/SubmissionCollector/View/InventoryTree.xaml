@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="SubmissionCollector.View.InventoryTree"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:models="clr-namespace:SubmissionCollector.Models"
+             xmlns:converters="clr-namespace:SubmissionCollector.View.Converters"
+             xmlns:subline="clr-namespace:SubmissionCollector.Models.Subline"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <!-- This style is used for buttons, to remove the WPF default 'animated' mouse over effect -->
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="1 ,0 , 0, 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                    BorderThickness="1"
+                                    Padding="4,2" 
+                                    BorderBrush="DarkGray" 
+                                    CornerRadius="3" 
+                                    Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+        
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+    
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+
+            <Button Name="UpButton" Style="{StaticResource MyButtonStyle}" Height="20" IsEnabled="True" ToolTip="Move node up" Click="UpButton_OnClick" HorizontalContentAlignment="Center" Width="25" HorizontalAlignment="Right" >
+                <Button.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/SubmissionCollector;component/View/Icons/UpArrow.png"/>
+                </Button.Background>
+            </Button>
+            <Button Name="DownButton" Style="{StaticResource MyButtonStyle}" Height="20" IsEnabled="True"  ToolTip="Move node down" Width="25" Click="DownButton_OnClick" HorizontalAlignment="Right" HorizontalContentAlignment="Center" >
+                <Button.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/SubmissionCollector;component/View/Icons/DownArrow.png"/>
+                </Button.Background>
+            </Button>
+            
+        </StackPanel>
+        
+        <TreeView Name="Tree"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch" Margin="0" 
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            ItemsSource="{Binding Package}"
+            FontSize="18">
+            
+            <TreeView.Resources>
+                <converters:SelectedFontWeightConverter x:Key="SelectedFontWeightConverter"></converters:SelectedFontWeightConverter>
+                <converters:SelectedBackgroundColorConverter x:Key="SelectedBackgroundColorConverter"></converters:SelectedBackgroundColorConverter>
+                <converters:UmbrellaIconConverter x:Key="UmbrellaIconConverter"></converters:UmbrellaIconConverter>
+                
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"  />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"  />
+                </Style>
+            </TreeView.Resources>
+            
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path = SegmentViews}" DataType="models:IPackageInventoryItem">
+                    <StackPanel Orientation="Vertical" Background="{Binding Path = IsSelected, Converter={StaticResource SelectedBackgroundColorConverter}}">
+                        <TextBlock Text="{Binding Path = Name}"  Foreground="Black" FontWeight="{Binding Path = IsSelected, Converter={StaticResource SelectedFontWeightConverter}}" />
+                        <TextBlock Text="{Binding Path = CedentIdAndName}"  FontSize="15" Foreground="SlateGray"/>
+                    </StackPanel>
+
+                    
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate  ItemsSource="{Binding Path = SublineViews}" DataType="models:ISegmentInventoryItem">
+                            <StackPanel Orientation="Horizontal" Background="{Binding Path = IsSelected, Converter={StaticResource SelectedBackgroundColorConverter}}" >
+                                <Image Source= "{Binding Path=IsUmbrella, Converter={StaticResource UmbrellaIconConverter}}" Height="32"  Margin="0, 0, 10, 0"/>
+                                <TextBlock Text="{Binding Path = Name}" Foreground="Black" FontWeight="{Binding Path = IsSelected, Converter={StaticResource SelectedFontWeightConverter}}" />
+                            </StackPanel>
+
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <DataTemplate DataType="subline:BaseSubline">
+                                    <StackPanel Orientation="Horizontal" Background="{Binding Path = IsSelected, Converter={StaticResource SelectedBackgroundColorConverter}}">
+                                        <Image Source= "{Binding Path=ImageSource}" Height="24" Margin="0, 0, 10,0"/>
+                                        <TextBlock Margin="0,0,0,0" Text= "{Binding Path = ShortNameWithLob}" Foreground="Black" 
+                                                   FontWeight="{Binding Path = IsSelected, Converter={StaticResource SelectedFontWeightConverter}}"/>
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+
+                        </HierarchicalDataTemplate>
+                        
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</UserControl>
+

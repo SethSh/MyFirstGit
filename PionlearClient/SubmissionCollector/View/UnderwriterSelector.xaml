@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="SubmissionCollector.View.UnderwriterSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:SubmissionCollector.ViewModel.Design"
+             mc:Ignorable="d" 
+             d:DataContext ="{d:DesignInstance {x:Type design:DesignUnderwriterSelectorViewModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="400" d:DesignWidth="500">
+
+
+    <UserControl.Resources>
+       <Style x:Key="Hcs" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition x:Name="CriteriaRow" Height="{Binding Path = CriteriaRowLength}" />
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0" >
+            <Label x:Name ="MyLabel" Content="Underwriter Selector" Width="Auto" FontWeight="Bold" BorderBrush="Black" FontSize="18"
+                   BorderThickness="1" HorizontalContentAlignment="Center" Height="40" VerticalAlignment="Top"/>
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" Grid.Column="0" >
+            <CheckBox x:Name="ShowMyUnderwritersCheckBox" Content="Show only my underwriters" FontSize="14" 
+                      IsChecked="{Binding Path= ShowMyUnderwriters}"
+                      Click="ShowMyUnderwritersCheckBox_OnClick"/>
+        </DockPanel>
+        
+        <DockPanel Grid.Row="2" Grid.Column="0" >
+            <Label x:Name="Label" FontSize="14" Content="Search:" VerticalContentAlignment="Center" />
+            <TextBox x:Name="CriteriaTextBox" FontSize="14" 
+                     HorizontalAlignment="Stretch"  
+                     VerticalContentAlignment="Center" Margin="0,5, 0, 5"
+                     Text="{Binding Criteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </DockPanel>
+
+        <DockPanel Grid.Row="3" Grid.Column="0" >
+            <ListView x:Name="UnderwriterListView" SelectionMode="Single" FontSize="14" 
+                      VerticalAlignment="Stretch"
+                      DockPanel.Dock="Left" HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding FilteredUnderwriters}"
+                      SizeChanged="UnderwriterListView_OnSizeChanged"
+                      MouseDoubleClick="UnderwriterListView_MouseDoubleClick"
+                      KeyDown="UnderwriterListView_KeyDown">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="300" HeaderContainerStyle="{StaticResource Hcs}"
+                                        Header="Underwriter Name" 
+                                        DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Width="100" HeaderContainerStyle="{StaticResource Hcs}" 
+                                        Header="Underwriter ID"
+                                        DisplayMemberBinding="{Binding Code}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+
+        <DockPanel Grid.Row="4" Grid.Column="0" >
+            <Label FontSize="14" Content="{Binding UnderwriterCountLabel}"/>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="CommitUnderwriterButton" Content="Commit" Height="25" Width="75" 
+                    VerticalAlignment="Center" Click="CommitUnderwriterButton_Click"
+                        ToolTip="Commits the selected underwriter">
+                </Button>
+
+                <Button x:Name="CancelButton" HorizontalAlignment="Right" Margin="5,5,0,5" Content="Cancel" Height="25"
+                        Width="75"
+                        Click="CancelButton_OnClick">
+                </Button>
+            </StackPanel>
+        </DockPanel>
+        
+        
+    </Grid>
+</UserControl>
+

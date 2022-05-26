@@ -1,0 +1,70 @@
+Option Explicit
+
+Const blueBackgroundColor As Long = 13998939
+Const grayBackgroundColor As Long = 15592941
+
+Public Sub Prepare()
+    
+    LockCells
+    ChangePolicyProfileRowsTo100
+    HideTemplateSheet
+    StartOnPackageSheet
+    
+End Sub
+
+
+Private Sub ChangePolicyProfileRowsTo100()
+
+    Dim i As Integer
+    For i = 1 To 6
+    
+        Dim rangeName As String
+        rangeName = "segmentTemplate.policyProfile" & i
+        
+        Dim rng As Range
+        Set rng = Range(rangeName)
+        
+        rng(1, 1).Offset(6, 0).Resize(89, 3).Insert (xlShiftDown)
+        
+    Next i
+
+End Sub
+
+
+Private Sub LockCells()
+    
+    Dim ws As Worksheet
+    For Each ws In Worksheets
+        
+        ws.UsedRange.Locked = False
+        
+        Dim rng As Range
+        For Each rng In ws.UsedRange
+               
+            If rng.Interior.Color = blueBackgroundColor Or rng.Interior.Color = grayBackgroundColor Then
+                rng.Locked = True
+            End If
+    
+        Next rng
+    
+    Next ws
+    
+End Sub
+
+
+Private Sub HideTemplateSheet()
+    Dim ws As Worksheet
+    Set ws = Worksheets("SegmentTemplate")
+    
+    Application.Goto ws.Range("a1")
+    ws.Visible = xlHidden
+End Sub
+
+
+Private Sub StartOnPackageSheet()
+    Dim ws As Worksheet
+    Set ws = Worksheets("Package")
+    
+    Application.Goto ws.Range("a1")
+End Sub
+
